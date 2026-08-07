@@ -1,0 +1,16 @@
+.lm-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+.lm-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.lm-shell__content {
+  flex: 1;
+  overflow: auto;
+  padding: var(--space-5);
+}

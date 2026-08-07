@@ -1,0 +1,25 @@
+.lm-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 960px;
+}
+.lm-page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.lm-page__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+.lm-page__desc {
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+}
+.lm-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}

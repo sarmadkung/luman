@@ -1,0 +1,43 @@
+.lm-button {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    opacity var(--transition-fast);
+}
+.lm-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.lm-button--primary {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+.lm-button--primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+.lm-button--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+.lm-button--secondary:hover:not(:disabled) {
+  border-color: var(--color-accent);
+}
+.lm-button--ghost {
+  background: transparent;
+  color: var(--color-text);
+}
+.lm-button--ghost:hover:not(:disabled) {
+  background: var(--color-bg-elevated);
+}
+.lm-button--danger {
+  background: var(--color-danger);
+  color: #fff;
+}

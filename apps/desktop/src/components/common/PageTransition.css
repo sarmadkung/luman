@@ -1,0 +1,18 @@
+.lm-transition {
+  animation: lm-fade-in 160ms ease;
+}
+@keyframes lm-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lm-transition {
+    animation: none;
+  }
+}

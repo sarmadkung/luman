@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "useDefineForClassFields": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": false,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    "baseUrl": ".",
+    "types": [],
+    "paths": {
+      "@luman/shared": ["packages/shared/src/index.ts"],
+      "@luman/shared/*": ["packages/shared/src/*"],
+      "@luman/domain": ["packages/domain/src/index.ts"],
+      "@luman/domain/*": ["packages/domain/src/*"],
+      "@luman/core": ["packages/core/src/index.ts"],
+      "@luman/core/*": ["packages/core/src/*"],
+      "@luman/ui": ["packages/ui/src/index.ts"],
+      "@luman/ui/*": ["packages/ui/src/*"],
+      "@luman/scanner": ["packages/scanner/src/index.ts"],
+      "@luman/scanner/*": ["packages/scanner/src/*"],
+      "@luman/cleanup": ["packages/cleanup/src/index.ts"],
+      "@luman/cleanup/*": ["packages/cleanup/src/*"],
+      "@luman/plugin-sdk": ["packages/plugin-sdk/src/index.ts"],
+      "@luman/plugin-sdk/*": ["packages/plugin-sdk/src/*"]
+    }
+  }
+}

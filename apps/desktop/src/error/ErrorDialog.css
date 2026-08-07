@@ -1,0 +1,42 @@
+.lm-errdialog__backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  padding: var(--space-5);
+}
+.lm-errdialog {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 440px;
+  width: 100%;
+  padding: var(--space-5);
+}
+.lm-errdialog__title {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-2);
+}
+.lm-errdialog__message {
+  color: var(--color-text-secondary);
+}
+.lm-errdialog__detail {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+.lm-errdialog__detail pre {
+  white-space: pre-wrap;
+  overflow: auto;
+  max-height: 160px;
+}
+.lm-errdialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
