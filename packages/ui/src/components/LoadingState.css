@@ -1,0 +1,9 @@
+.lm-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+.lm-loading--compact {
+  padding: var(--space-4);
+}

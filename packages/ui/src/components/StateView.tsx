@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
-import { Spinner } from './Spinner';
+import { LoadingState } from './LoadingState';
 import { EmptyState } from './EmptyState';
+import { ErrorState } from './ErrorState';
 
 /**
- * Every screen must define Loading, Empty, Error and Success states
- * (Design Spec). `StateView` makes that contract easy to satisfy consistently.
+ * Every screen must define Loading, Empty, Error and Success states, plus a
+ * Permission-Required state where access is involved (Design Spec + Sprint 2
+ * Epic 7). `StateView` makes satisfying that contract consistent.
  */
-export type ViewStatus = 'loading' | 'empty' | 'error' | 'success';
+export type ViewStatus = 'loading' | 'empty' | 'permission' | 'error' | 'success';
 
 export interface StateViewProps {
   readonly status: ViewStatus;
@@ -14,7 +16,8 @@ export interface StateViewProps {
   readonly emptyTitle?: string;
   readonly emptyDescription?: string;
   readonly emptyAction?: ReactNode;
-  readonly error?: { title: string; description?: string; action?: ReactNode };
+  readonly permission?: { title?: string; description?: string; action?: ReactNode };
+  readonly error?: { title?: string; description?: string; onRetry?: () => void };
   readonly children?: ReactNode;
 }
 
@@ -24,26 +27,32 @@ export function StateView({
   emptyTitle = 'Nothing here yet',
   emptyDescription,
   emptyAction,
+  permission,
   error,
   children,
 }: StateViewProps) {
   if (status === 'loading') {
-    return (
-      <div className="lm-stateview lm-stateview--loading">
-        <Spinner label={loadingLabel} />
-      </div>
-    );
+    return <LoadingState label={loadingLabel} />;
   }
   if (status === 'empty') {
     return <EmptyState title={emptyTitle} description={emptyDescription} action={emptyAction} />;
   }
-  if (status === 'error') {
+  if (status === 'permission') {
     return (
       <EmptyState
-        title={error?.title ?? 'Something went wrong'}
-        description={error?.description}
-        action={error?.action}
+        icon="🔒"
+        title={permission?.title ?? 'Permission required'}
+        description={
+          permission?.description ??
+          'Luman needs permission to access this location. You can grant access to continue.'
+        }
+        action={permission?.action}
       />
+    );
+  }
+  if (status === 'error') {
+    return (
+      <ErrorState title={error?.title} description={error?.description} onRetry={error?.onRetry} />
     );
   }
   return <>{children}</>;

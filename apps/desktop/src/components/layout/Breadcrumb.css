@@ -1,0 +1,20 @@
+.lm-breadcrumb ol {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+.lm-breadcrumb__root {
+  color: var(--color-text-muted);
+}
+.lm-breadcrumb__sep {
+  color: var(--color-text-muted);
+}
+.lm-breadcrumb li[aria-current='page'] {
+  color: var(--color-text);
+  font-weight: 600;
+}

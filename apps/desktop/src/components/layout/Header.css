@@ -6,7 +6,14 @@
   padding: 0 var(--space-5);
   background: var(--color-bg-elevated);
 }
+.lm-header__titles {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-width: 0;
+}
 .lm-header__title {
   font-size: var(--font-size-lg);
   font-weight: 600;
+  white-space: nowrap;
 }

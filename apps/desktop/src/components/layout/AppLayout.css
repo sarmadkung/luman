@@ -13,4 +13,5 @@
   flex: 1;
   overflow: auto;
   padding: var(--space-5);
+  scroll-behavior: smooth;
 }

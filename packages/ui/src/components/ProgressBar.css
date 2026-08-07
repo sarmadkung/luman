@@ -1,0 +1,29 @@
+.lm-progress {
+  display: flex;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+.lm-progress__seg {
+  display: block;
+  height: 100%;
+  transition: width var(--transition-fast);
+}
+.lm-progress__seg--accent {
+  background: var(--color-accent);
+}
+.lm-progress__seg--success {
+  background: var(--color-success);
+}
+.lm-progress__seg--warning {
+  background: var(--color-warning);
+}
+.lm-progress__seg--danger {
+  background: var(--color-danger);
+}
+.lm-progress__seg--muted {
+  background: var(--color-border-strong);
+}

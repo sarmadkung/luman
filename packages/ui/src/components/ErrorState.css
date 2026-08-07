@@ -1,0 +1,21 @@
+.lm-errorstate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  color: var(--color-text-secondary);
+}
+.lm-errorstate__icon {
+  font-size: 26px;
+  color: var(--color-warning);
+}
+.lm-errorstate__title {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+}
+.lm-errorstate__desc {
+  max-width: 40ch;
+}

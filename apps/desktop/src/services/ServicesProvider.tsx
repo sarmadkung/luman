@@ -1,7 +1,8 @@
 import { useEffect, useMemo, type ReactNode } from 'react';
-import { createServices, AppError } from '@luman/core';
+import { AppError } from '@luman/core';
 import { ServicesContext } from './ServicesContext';
 import { bootstrap } from './bootstrap';
+import { createAppServices } from './create-services';
 import { logger } from '../error/logger';
 import { useApplicationStore } from '../stores';
 
@@ -10,7 +11,7 @@ import { useApplicationStore } from '../stores';
  * readiness / fatal init errors into the application store.
  */
 export function ServicesProvider({ children }: { children: ReactNode }) {
-  const services = useMemo(() => createServices({ logger }), []);
+  const services = useMemo(() => createAppServices(logger), []);
   const setReady = useApplicationStore((s) => s.setReady);
   const setInitError = useApplicationStore((s) => s.setInitError);
 

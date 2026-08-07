@@ -1,0 +1,139 @@
+/* Responsive dashboard grid (Epic 1 + Epic 10 window resizing). */
+.lm-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+.lm-dashboard__wide {
+  grid-column: span 2;
+}
+.lm-dashboard__full {
+  grid-column: 1 / -1;
+}
+
+/* Storage widget internals */
+.lm-storage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lm-storage__legend {
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+.lm-storage__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.lm-storage__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.lm-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+.lm-dot--accent {
+  background: var(--color-accent);
+}
+.lm-dot--warning {
+  background: var(--color-warning);
+}
+.lm-dot--success {
+  background: var(--color-success);
+}
+.lm-dot--danger {
+  background: var(--color-danger);
+}
+.lm-dot--muted {
+  background: var(--color-border-strong);
+}
+
+/* Recoverable widget */
+.lm-recoverable {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.lm-recoverable__value {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-success);
+}
+.lm-recoverable__meta {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* Quick actions grid */
+.lm-quickactions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-3);
+}
+
+/* Recommendations list */
+.lm-recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Recent activity */
+.lm-activity {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-2);
+}
+
+/* System status */
+.lm-sysstatus {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2) var(--space-5);
+}
+.lm-sysstatus__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.lm-sysstatus__label {
+  color: var(--color-text-secondary);
+}
+.lm-sysstatus__value {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+/* Tablet */
+@media (max-width: 1080px) {
+  .lm-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lm-dashboard__wide {
+    grid-column: 1 / -1;
+  }
+}
+/* Narrow / single column */
+@media (max-width: 720px) {
+  .lm-dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lm-dashboard__wide,
+  .lm-dashboard__full {
+    grid-column: 1 / -1;
+  }
+}
