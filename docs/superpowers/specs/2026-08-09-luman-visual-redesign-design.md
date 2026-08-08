@@ -292,12 +292,22 @@ than view logic:
 
 ```ts
 // packages/domain/src/models/health.ts
+/**
+ * Structural input. Deliberately NOT an import of StorageOverview: that type
+ * lives in @luman/core, and core depends on domain, not the reverse. A
+ * StorageOverview satisfies this shape structurally, so callers pass one directly.
+ */
+export interface StorageHealthInput {
+  readonly totalBytes: number;
+  readonly freeBytes: number;
+  readonly reclaimableBytes: number;
+}
 export interface StorageHealth {
   readonly score: number;                        // 0–100
   readonly band: 'healthy' | 'attention' | 'low';
   readonly description: string;
 }
-export function computeHealthScore(o: StorageOverview): StorageHealth;
+export function computeHealthScore(input: StorageHealthInput): StorageHealth;
 ```
 
 Derivation, fixed here so it is testable without further decisions:
