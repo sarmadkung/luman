@@ -1,0 +1,17 @@
+.lm-glass {
+  background: var(--glass-bg);
+  border: var(--border-width) solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur));
+  backdrop-filter: saturate(180%) blur(var(--glass-blur));
+}
+.lm-glass--strong {
+  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur-strong));
+  backdrop-filter: saturate(180%) blur(var(--glass-blur-strong));
+}
+/* Graceful fallback where backdrop-filter is unsupported. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lm-glass {
+    background: var(--color-surface);
+  }
+}

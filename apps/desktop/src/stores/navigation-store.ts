@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 
 /** Ids of the primary navigation destinations. */
-export type NavKey = 'dashboard' | 'smart-scan' | 'space-lens' | 'history' | 'settings';
+export type NavKey =
+  'dashboard' | 'smart-scan' | 'space-lens' | 'history' | 'settings' | 'playground';
 
 /**
  * Lightweight navigation UI state. The router remains the source of truth for

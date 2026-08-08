@@ -1,0 +1,24 @@
+.lm-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+}
+.lm-banner__content {
+  flex: 1;
+}
+.lm-banner--info {
+  background: var(--color-info-soft);
+  color: var(--color-text);
+}
+.lm-banner--warning {
+  background: var(--color-warning-soft);
+}
+.lm-banner--danger {
+  background: var(--color-danger-soft);
+}
+.lm-banner--accent {
+  background: var(--color-accent-soft);
+}

@@ -1,0 +1,28 @@
+.lm-resizable {
+  position: relative;
+  flex-shrink: 0;
+  height: 100%;
+}
+.lm-resizable__content {
+  height: 100%;
+  overflow: hidden;
+}
+.lm-resizable__handle {
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+  transition: background var(--transition-fast);
+}
+.lm-resizable__handle--right {
+  right: -3px;
+}
+.lm-resizable__handle--left {
+  left: -3px;
+}
+.lm-resizable__handle:hover,
+.lm-resizable__handle:focus-visible {
+  background: var(--color-accent);
+}

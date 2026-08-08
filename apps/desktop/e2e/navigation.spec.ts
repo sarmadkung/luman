@@ -28,7 +28,7 @@ test('navigates across all primary destinations', async ({ page }) => {
 
 test('theme selection changes the applied appearance', async ({ page }) => {
   await page.goto('/settings');
-  const select = page.getByLabel('Theme');
+  const select = page.getByLabel('Theme', { exact: true });
   await select.selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await select.selectOption('light');

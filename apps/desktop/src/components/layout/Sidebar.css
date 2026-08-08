@@ -1,9 +1,20 @@
 .lm-sidebar {
   width: var(--sidebar-width);
-  background: var(--color-sidebar);
-  border-right: 1px solid var(--color-border);
+  height: 100%;
+  border-radius: 0;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  transition: width var(--motion-page) var(--easing-standard);
+  z-index: var(--z-sidebar);
+}
+.lm-sidebar--collapsed {
+  width: var(--sidebar-width-collapsed);
+}
+.lm-sidebar__nav {
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: var(--space-2);
   gap: var(--space-2);
 }
@@ -13,7 +24,7 @@
   gap: var(--space-2);
   height: var(--header-height);
   padding: 0 var(--space-3);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-lg);
 }
 .lm-sidebar__logo {
@@ -27,6 +38,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
 }
 .lm-sidebar__link {
   display: flex;
@@ -35,20 +47,21 @@
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   transition:
     background var(--transition-fast),
     color var(--transition-fast);
 }
 .lm-sidebar__link:hover {
-  background: var(--color-bg-elevated);
+  background: var(--color-surface-hover);
   color: var(--color-text);
 }
 .lm-sidebar__link--active {
   background: var(--color-accent);
   color: var(--color-accent-contrast);
 }
-.lm-sidebar__glyph {
-  width: 18px;
-  text-align: center;
+.lm-sidebar__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-1);
 }

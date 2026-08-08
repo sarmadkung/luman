@@ -5,4 +5,5 @@ export * from './LargeFilesPage';
 export * from './ApplicationsPage';
 export * from './HistoryPage';
 export * from './SettingsPage';
+export * from './PlaygroundPage';
 export * from './NotFoundPage';

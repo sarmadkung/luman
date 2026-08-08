@@ -1,0 +1,14 @@
+.lm-panel {
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.lm-panel__title {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border);
+  font-weight: var(--font-weight-semibold);
+}
+.lm-panel__body {
+  padding: var(--space-4);
+}

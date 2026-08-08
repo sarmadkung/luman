@@ -1,0 +1,33 @@
+.lm-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  line-height: 1.5;
+}
+.lm-badge--neutral {
+  background: var(--color-surface-hover);
+  color: var(--color-text-secondary);
+}
+.lm-badge--accent {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.lm-badge--success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.lm-badge--warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.lm-badge--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+.lm-badge--info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}

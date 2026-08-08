@@ -21,6 +21,6 @@ test('quick actions are clickable and route correctly', async ({ page }) => {
 
 test('theme switching still works from the dashboard flow', async ({ page }) => {
   await page.goto('/settings');
-  await page.getByLabel('Theme').selectOption('dark');
+  await page.getByLabel('Theme', { exact: true }).selectOption('dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });

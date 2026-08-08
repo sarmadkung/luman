@@ -1,0 +1,11 @@
+.lm-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
+  opacity: var(--aurora-opacity);
+  background:
+    radial-gradient(40% 40% at 15% 20%, var(--aurora-blue) 0%, transparent 70%),
+    radial-gradient(45% 45% at 85% 15%, var(--aurora-purple) 0%, transparent 70%),
+    radial-gradient(50% 50% at 75% 85%, var(--aurora-mint) 0%, transparent 70%);
+}

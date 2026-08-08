@@ -1,4 +1,4 @@
-/* Global resets and base element styling. Imports tokens first. */
+/* Global resets, base element styling, and accessibility defaults. */
 @import './tokens.css';
 
 * {
@@ -14,7 +14,8 @@ body,
 
 body {
   font-family: var(--font-sans);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-normal);
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
@@ -26,15 +27,32 @@ a {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+/* Focus rings: only for keyboard users (Epic 13). */
+:focus:not(:focus-visible) {
+  outline: none;
+}
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: var(--border-width-strong) solid var(--color-accent);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-h1,
-h2,
-h3,
-p {
-  margin: 0;
+/* Respect reduced motion globally (Epic 12/13). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

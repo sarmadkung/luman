@@ -19,6 +19,7 @@
     "react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@luman/shared": "workspace:*"
+    "@luman/shared": "workspace:*",
+    "lucide-react": "^0.468.0"
   }
 }

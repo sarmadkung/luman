@@ -1,0 +1,17 @@
+.lm-surface {
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.lm-surface--flat {
+  box-shadow: none;
+}
+.lm-surface--raised {
+  box-shadow: var(--shadow-sm);
+}
+.lm-surface--overlay {
+  box-shadow: var(--shadow-lg);
+}
+.lm-surface--padded {
+  padding: var(--space-4);
+}

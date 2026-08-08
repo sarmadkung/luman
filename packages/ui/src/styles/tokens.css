@@ -1,8 +1,13 @@
 /*
- * Luman design tokens. Light is the default (:root); dark overrides via
- * [data-theme='dark'] set on <html> by the theme store. Every color the app
- * uses is a token here so dark/light switching is a single attribute flip.
+ * Luman Design Tokens — the single source of truth for all visual values.
+ * NOTHING in the app may hardcode a color, spacing, radius, shadow, duration,
+ * z-index or type size. Everything references a token defined here.
+ *
+ * Light is the default (:root); dark overrides via [data-theme='dark'] set on
+ * <html> by the theme store, so switching themes is a single attribute flip.
  */
+
+/* ============================ COLOR — LIGHT ============================ */
 :root,
 [data-theme='light'] {
   color-scheme: light;
@@ -11,6 +16,7 @@
   --color-bg-elevated: #ffffff;
   --color-sidebar: #ececee;
   --color-surface: #ffffff;
+  --color-surface-hover: #f2f2f4;
   --color-border: #d9d9de;
   --color-border-strong: #c2c2c9;
 
@@ -21,15 +27,35 @@
   --color-accent: #0a84ff;
   --color-accent-hover: #0060df;
   --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(10, 132, 255, 0.12);
 
   --color-success: #248a3d;
   --color-warning: #b25000;
   --color-danger: #d70015;
+  --color-info: #0a84ff;
+
+  --color-success-soft: rgba(36, 138, 61, 0.14);
+  --color-warning-soft: rgba(178, 80, 0, 0.14);
+  --color-danger-soft: rgba(215, 0, 21, 0.12);
+  --color-info-soft: rgba(10, 132, 255, 0.12);
+
+  /* Glass (frosted) — light */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+  /* Aurora background hues — light */
+  --aurora-blue: #0a84ff;
+  --aurora-purple: #7d5cff;
+  --aurora-mint: #34e2c0;
+  --aurora-opacity: 0.06;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.16);
 }
 
+/* ============================ COLOR — DARK ============================ */
 [data-theme='dark'] {
   color-scheme: dark;
 
@@ -37,6 +63,7 @@
   --color-bg-elevated: #2c2c2e;
   --color-sidebar: #242426;
   --color-surface: #2c2c2e;
+  --color-surface-hover: #37373a;
   --color-border: #38383a;
   --color-border-strong: #48484a;
 
@@ -47,37 +74,129 @@
   --color-accent: #0a84ff;
   --color-accent-hover: #409cff;
   --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(10, 132, 255, 0.22);
 
   --color-success: #30d158;
   --color-warning: #ff9f0a;
   --color-danger: #ff453a;
+  --color-info: #64d2ff;
+
+  --color-success-soft: rgba(48, 209, 88, 0.18);
+  --color-warning-soft: rgba(255, 159, 10, 0.18);
+  --color-danger-soft: rgba(255, 69, 58, 0.18);
+  --color-info-soft: rgba(100, 210, 255, 0.18);
+
+  --glass-bg: rgba(40, 40, 43, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+
+  --aurora-blue: #0a84ff;
+  --aurora-purple: #9d7bff;
+  --aurora-mint: #34e2c0;
+  --aurora-opacity: 0.08;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
 }
 
-:root {
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+/* ============================ HIGH CONTRAST ============================ */
+@media (prefers-contrast: more) {
+  :root {
+    --color-border: var(--color-border-strong);
+    --color-text-secondary: var(--color-text);
+  }
+}
 
+/* ==================== NON-COLOR TOKENS (theme-agnostic) ==================== */
+:root {
+  /* Spacing scale (4px base) */
+  --space-0: 0;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 24px;
   --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* Borders */
+  --border-width: 1px;
+  --border-width-strong: 2px;
+
+  /* Typography */
   --font-sans:
     -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'Menlo', 'Cascadia Code', monospace;
+
+  --font-size-caption: 11px;
   --font-size-sm: 12px;
   --font-size-base: 13px;
+  --font-size-body: 14px;
   --font-size-lg: 15px;
+  --font-size-headline: 17px;
   --font-size-xl: 20px;
+  --font-size-title: 22px;
   --font-size-2xl: 28px;
+  --font-size-large-title: 34px;
+  --font-size-metric: 40px;
 
-  --transition-fast: 120ms ease;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.15;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+
+  /* Motion */
+  --motion-hover: 120ms;
+  --motion-press: 90ms;
+  --motion-dialog: 180ms;
+  --motion-page: 200ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  /* Back-compat alias used by earlier components */
+  --transition-fast: var(--motion-hover) var(--easing-standard);
+
+  /* Opacity */
+  --opacity-disabled: 0.45;
+  --opacity-muted: 0.7;
+  --opacity-hover-overlay: 0.06;
+
+  /* Glass */
+  --glass-blur: 20px;
+  --glass-blur-strong: 32px;
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-sidebar: 200;
+  --z-overlay: 900;
+  --z-modal: 1000;
+  --z-popover: 1100;
+  --z-toast: 1200;
+  --z-tooltip: 1300;
+
+  /* Overlays */
+  --color-backdrop: rgba(0, 0, 0, 0.4);
+
+  /* Layout dimensions */
   --sidebar-width: 220px;
+  --sidebar-width-collapsed: 60px;
   --header-height: 52px;
+  --toolbar-height: 44px;
   --statusbar-height: 28px;
 }

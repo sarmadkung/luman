@@ -1,0 +1,18 @@
+.lm-toolbar {
+  height: var(--toolbar-height);
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  z-index: var(--z-sticky);
+}
+.lm-toolbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 100%;
+  padding: 0 var(--space-4);
+}
+.lm-toolbar__spacer {
+  flex: 1;
+}

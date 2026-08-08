@@ -1,0 +1,53 @@
+.lm-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-backdrop);
+  padding: var(--space-5);
+  animation: lm-dialog-in var(--motion-dialog) var(--easing-emphasized);
+}
+.lm-dialog__backdrop > .lm-glass {
+  border-radius: var(--radius-lg);
+  max-width: 460px;
+  width: 100%;
+}
+.lm-dialog {
+  padding: var(--space-5);
+  outline: none;
+}
+.lm-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+.lm-dialog__title {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+}
+.lm-dialog__desc {
+  color: var(--color-text-secondary);
+}
+.lm-dialog__body {
+  margin-top: var(--space-4);
+}
+.lm-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+@keyframes lm-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

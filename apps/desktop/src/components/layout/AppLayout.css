@@ -1,7 +1,10 @@
 .lm-shell {
+  position: relative;
+  z-index: var(--z-base);
   display: flex;
   height: 100vh;
   overflow: hidden;
+  background: transparent;
 }
 .lm-shell__main {
   flex: 1;
@@ -11,7 +14,5 @@
 }
 .lm-shell__content {
   flex: 1;
-  overflow: auto;
   padding: var(--space-5);
-  scroll-behavior: smooth;
 }

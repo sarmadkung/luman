@@ -1,0 +1,21 @@
+.lm-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 1120px;
+}
+.lm-page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.lm-page__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+.lm-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
