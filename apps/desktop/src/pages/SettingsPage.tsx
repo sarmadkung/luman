@@ -3,6 +3,7 @@ import { THEME_MODES, type ThemeMode } from '@luman/ui';
 import { Page } from '../components/common';
 import { useThemeStore } from '../theme';
 import { useSettingsStore } from '../stores';
+import { SystemStatusCard } from '../components/settings';
 import './SettingsPage.css';
 
 /** Settings: theme selection (Epic 3) and conservative safety defaults. */
@@ -46,6 +47,8 @@ export function SettingsPage() {
           Cleanup is always explicit. This safeguard cannot be bypassed by automation.
         </p>
       </Card>
+
+      <SystemStatusCard />
     </Page>
   );
 }

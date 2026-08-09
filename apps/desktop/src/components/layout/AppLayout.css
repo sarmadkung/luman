@@ -14,5 +14,10 @@
 }
 .lm-shell__content {
   flex: 1;
-  padding: var(--space-5);
+  padding: var(--space-6) var(--space-5);
+}
+.lm-shell__container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
 }

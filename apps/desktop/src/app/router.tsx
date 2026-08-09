@@ -4,7 +4,9 @@ import { AppLayout } from '../components/layout';
 import { PageTransition } from '../components/common';
 import {
   ApplicationsPage,
+  CleanupPage,
   DashboardPage,
+  DeveloperCenterPage,
   HistoryPage,
   LargeFilesPage,
   NotFoundPage,
@@ -23,6 +25,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: withTransition(<DashboardPage />) },
       { path: 'smart-scan', element: withTransition(<SmartScanPage />) },
+      { path: 'cleanup', element: withTransition(<CleanupPage />) },
+      { path: 'developer-center', element: withTransition(<DeveloperCenterPage />) },
       { path: 'space-lens', element: withTransition(<SpaceLensPage />) },
       { path: 'large-files', element: withTransition(<LargeFilesPage />) },
       { path: 'applications', element: withTransition(<ApplicationsPage />) },

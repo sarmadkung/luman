@@ -10,3 +10,4 @@ export * from './models/finding';
 export * from './models/cleanup-action';
 export * from './models/plugin';
 export * from './models/recommendation';
+export * from './models/health';

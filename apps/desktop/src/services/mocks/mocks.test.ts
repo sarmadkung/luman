@@ -28,3 +28,34 @@ describe('mock services', () => {
     expect(await new MockHistoryService({ summary: null }).getActivitySummary()).toBeNull();
   });
 });
+
+describe('MockStorageService.getBreakdown', () => {
+  it('returns categories that sum exactly to the overview used bytes', async () => {
+    const service = new MockStorageService();
+    const [overview, breakdown] = await Promise.all([
+      service.getOverview(),
+      service.getBreakdown(),
+    ]);
+    const total = breakdown!.reduce((sum, c) => sum + c.bytes, 0);
+    expect(total).toBe(overview!.usedBytes);
+  });
+
+  it('returns categories with unique keys and positive sizes', async () => {
+    const breakdown = (await new MockStorageService().getBreakdown())!;
+    expect(breakdown.length).toBeGreaterThan(0);
+    expect(new Set(breakdown.map((c) => c.key)).size).toBe(breakdown.length);
+    for (const category of breakdown) {
+      expect(category.bytes).toBeGreaterThan(0);
+      expect(category.label.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('exercises the empty state when breakdown is explicitly null', async () => {
+    expect(await new MockStorageService({ breakdown: null }).getBreakdown()).toBeNull();
+  });
+
+  it('propagates the configured failure', async () => {
+    const boom = new Error('nope');
+    await expect(new MockStorageService({ failWith: boom }).getBreakdown()).rejects.toThrow('nope');
+  });
+});

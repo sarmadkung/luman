@@ -10,14 +10,20 @@
   position: absolute;
   border-radius: var(--radius-full);
   filter: blur(var(--aurora-blur));
-  opacity: var(--aurora-opacity);
 }
+/*
+ * Each blob carries its own weight relative to --aurora-opacity, mirroring the
+ * source design: a bright mint highlight, a much fainter amber, and a deep
+ * green that adds depth rather than brightness. A single shared opacity makes
+ * the whole surface wash out.
+ */
 .lm-aurora__blob--1 {
   width: 800px;
   height: 800px;
   top: -200px;
   left: -200px;
   background: var(--aurora-1);
+  opacity: calc(var(--aurora-opacity) * 0.9);
   animation: lm-aurora-drift-1 20s infinite alternate ease-in-out;
 }
 .lm-aurora__blob--2 {
@@ -26,6 +32,7 @@
   right: -200px;
   bottom: -300px;
   background: var(--aurora-2);
+  opacity: calc(var(--aurora-opacity) * 0.45);
   animation: lm-aurora-drift-2 25s infinite alternate ease-in-out;
 }
 .lm-aurora__blob--3 {
@@ -34,6 +41,7 @@
   top: 20%;
   left: 30%;
   background: var(--aurora-3);
+  opacity: calc(var(--aurora-opacity) * 1.1);
   animation: lm-aurora-drift-3 30s infinite alternate ease-in-out;
 }
 

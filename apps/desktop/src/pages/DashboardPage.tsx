@@ -1,42 +1,39 @@
 import { Page } from '../components/common';
 import {
-  StorageOverviewWidget,
-  RecoverableSpaceWidget,
-  QuickActionsWidget,
+  DashboardHero,
+  StorageUsedWidget,
+  HealthWidget,
+  StorageBreakdownWidget,
   RecommendationsWidget,
   RecentActivityWidget,
-  SystemStatusWidget,
 } from '../components/dashboard';
 import '../components/dashboard/Dashboard.css';
 
 /**
- * Home screen (Sprint 2). Composes storage, recoverable-space, quick-actions,
- * recommendations, recent-activity and system-status widgets in a responsive
- * grid. All data flows through service interfaces (mocked in Sprint 2); this
- * page contains no business logic and never starts a scan or cleanup on its own.
+ * Home screen. Hero, then a two-up metrics row, then the bento grid. All data
+ * flows through service interfaces; this page contains no business logic and
+ * never starts a scan or cleanup. The hero supplies the page's <h1>, so no
+ * Page title is passed.
  */
 export function DashboardPage() {
   return (
-    <Page title="Dashboard" description="Your storage at a glance.">
-      <div className="lm-dashboard">
+    <Page>
+      <DashboardHero />
+
+      <section className="lm-dashboard__metrics">
+        <StorageUsedWidget />
+        <HealthWidget />
+      </section>
+
+      <section className="lm-dashboard">
         <div className="lm-dashboard__wide">
-          <StorageOverviewWidget />
+          <StorageBreakdownWidget />
         </div>
-        <RecoverableSpaceWidget />
-
+        <RecommendationsWidget />
         <div className="lm-dashboard__full">
-          <QuickActionsWidget />
+          <RecentActivityWidget />
         </div>
-
-        <div className="lm-dashboard__wide">
-          <RecommendationsWidget />
-        </div>
-        <RecentActivityWidget />
-
-        <div className="lm-dashboard__full">
-          <SystemStatusWidget />
-        </div>
-      </div>
+      </section>
     </Page>
   );
 }

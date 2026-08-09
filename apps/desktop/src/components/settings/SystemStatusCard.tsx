@@ -1,7 +1,8 @@
-import { DashboardCard } from '@luman/ui';
+import { Card } from '@luman/ui';
 import { useServices } from '../../services';
 import { useApplicationStore } from '../../stores';
 import { useThemeStore } from '../../theme';
+import './SystemStatus.css';
 
 interface StatusRow {
   readonly label: string;
@@ -9,8 +10,11 @@ interface StatusRow {
   readonly ok: boolean;
 }
 
-/** System Status footer: readiness, database, plugins, appearance, version. */
-export function SystemStatusWidget() {
+/**
+ * Diagnostics: readiness, database, plugins, appearance, version. This lives in
+ * Settings rather than on the dashboard — it reports on the app, not on storage.
+ */
+export function SystemStatusCard() {
   const { plugins } = useServices();
   const ready = useApplicationStore((s) => s.ready);
   const initError = useApplicationStore((s) => s.initError);
@@ -25,7 +29,7 @@ export function SystemStatusWidget() {
   ];
 
   return (
-    <DashboardCard title="System Status">
+    <Card title="System">
       <ul className="lm-sysstatus">
         {rows.map((row) => (
           <li key={row.label} className="lm-sysstatus__row">
@@ -38,6 +42,6 @@ export function SystemStatusWidget() {
           </li>
         ))}
       </ul>
-    </DashboardCard>
+    </Card>
   );
 }

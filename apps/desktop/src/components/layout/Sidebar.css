@@ -15,29 +15,54 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: var(--space-2);
+  padding: var(--space-3);
   gap: var(--space-2);
 }
 .lm-sidebar__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  height: var(--header-height);
-  padding: 0 var(--space-3);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-lg);
+  gap: var(--space-3);
+  min-height: var(--header-height);
+  padding: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 .lm-sidebar__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-soft);
+  border: var(--border-width) solid var(--glass-surface-border);
   color: var(--color-accent);
-  font-size: 18px;
 }
-.lm-sidebar__list {
+.lm-sidebar__brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.lm-sidebar__name {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text);
+}
+.lm-sidebar__tagline {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+.lm-sidebar__list,
+.lm-sidebar__footer-nav {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+.lm-sidebar__list {
   flex: 1;
 }
 .lm-sidebar__link {
@@ -45,9 +70,10 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
+  border: var(--border-width) solid transparent;
   transition:
     background var(--transition-fast),
     color var(--transition-fast);
@@ -57,11 +83,20 @@
   color: var(--color-text);
 }
 .lm-sidebar__link--active {
-  background: var(--color-accent);
-  color: var(--color-accent-contrast);
+  background: var(--color-accent-soft);
+  border-color: var(--glass-surface-border);
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
 }
 .lm-sidebar__footer {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: var(--border-width) solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.lm-sidebar__toggle {
   display: flex;
   justify-content: flex-end;
-  padding: var(--space-1);
 }

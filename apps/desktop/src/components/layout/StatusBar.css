@@ -1,18 +1,21 @@
 .lm-statusbar {
-  height: var(--statusbar-height);
-  border-top: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0 var(--space-4);
+  height: var(--statusbar-height);
+  flex: none;
+  padding: 0 var(--space-5);
+  border-top: var(--border-width) solid var(--color-border);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur-chrome));
+  backdrop-filter: saturate(180%) blur(var(--glass-blur-chrome));
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  background: var(--color-bg-elevated);
 }
 .lm-statusbar__dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background: var(--color-warning);
 }
 .lm-statusbar__dot--ready {

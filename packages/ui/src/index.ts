@@ -10,6 +10,7 @@ export * from './components/Text';
 export * from './components/Icon';
 export * from './components/Aurora';
 export * from './components/Glass';
+export * from './components/StorageOrb';
 
 /* Base components */
 export * from './components/Button';
@@ -60,6 +61,9 @@ export * from './components/ToolbarItem';
 /* Dashboard-oriented (from the previous sprint) */
 export * from './components/DashboardCard';
 export * from './components/StatCard';
+export * from './components/MetricCard';
+export * from './components/BreakdownList';
+export * from './components/HeroBanner';
 export * from './components/QuickActionButton';
 export * from './components/RecommendationCard';
 

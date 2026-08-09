@@ -1,5 +1,7 @@
 export * from './DashboardPage';
 export * from './SmartScanPage';
+export * from './CleanupPage';
+export * from './DeveloperCenterPage';
 export * from './SpaceLensPage';
 export * from './LargeFilesPage';
 export * from './ApplicationsPage';

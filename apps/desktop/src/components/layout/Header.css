@@ -1,19 +1,108 @@
 .lm-header {
   height: var(--header-height);
-  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
   display: flex;
   align-items: center;
+  gap: var(--space-5);
   padding: 0 var(--space-5);
-  background: var(--color-bg-elevated);
+  z-index: var(--z-sticky);
 }
 .lm-header__titles {
   display: flex;
   align-items: baseline;
   gap: var(--space-3);
   min-width: 0;
+  flex: none;
 }
 .lm-header__title {
   font-size: var(--font-size-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
+  color: var(--color-text);
+}
+.lm-header__search {
+  position: relative;
+  flex: 1;
+  max-width: 380px;
+}
+.lm-header__search-icon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  line-height: 0;
+  pointer-events: none;
+}
+.lm-header__search-input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-6);
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-border);
+  background: var(--glass-surface-bg);
+  color: var(--color-text);
+  font-size: var(--font-size-body);
+  font-family: inherit;
+}
+.lm-header__search-input::placeholder {
+  color: var(--color-text-muted);
+}
+.lm-header__search-input:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+.lm-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+/* Quick Action menu */
+.lm-quickmenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 220px;
+}
+.lm-quickmenu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.lm-quickmenu__item:hover {
+  background: var(--color-surface-hover);
+}
+.lm-quickmenu__text {
+  display: flex;
+  flex-direction: column;
+}
+.lm-quickmenu__label {
+  font-weight: var(--font-weight-medium);
+}
+.lm-quickmenu__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 900px) {
+  .lm-header__search {
+    display: none;
+  }
 }

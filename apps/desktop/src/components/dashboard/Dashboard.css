@@ -1,8 +1,21 @@
+/* Two-up metrics row above the bento grid. */
+.lm-dashboard__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+@media (max-width: 900px) {
+  .lm-dashboard__metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Responsive dashboard grid (Epic 1 + Epic 10 window resizing). */
 .lm-dashboard {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-4);
+  gap: var(--space-5);
   align-items: start;
 }
 .lm-dashboard__wide {

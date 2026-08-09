@@ -1,0 +1,70 @@
+.lm-orb {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+/*
+ * A dark disc lit from its rim, not a solid green ball: the body stays close to
+ * the page surface and the accent only appears as a glancing highlight, with
+ * the real luminosity coming from the blurred glow behind it.
+ */
+.lm-orb__stop-bright {
+  stop-color: var(--color-bg-elevated);
+  stop-opacity: 0.98;
+}
+.lm-orb__stop-mid {
+  stop-color: var(--color-bg-elevated);
+  stop-opacity: 0.92;
+}
+.lm-orb__stop-edge {
+  stop-color: var(--color-accent);
+  stop-opacity: 0.45;
+}
+.lm-orb__glow {
+  fill: var(--color-accent);
+  opacity: 0.3;
+  filter: blur(26px);
+}
+.lm-orb__body {
+  stroke: var(--glass-surface-border);
+  stroke-width: 1;
+}
+.lm-orb__ring {
+  fill: none;
+  stroke: var(--color-accent);
+}
+.lm-orb__ring--inner {
+  opacity: 0.35;
+  stroke-width: 1;
+}
+.lm-orb__ring--mid {
+  opacity: 0.55;
+  stroke-width: 1.5;
+}
+.lm-orb__ring--outer {
+  opacity: 0.4;
+  stroke-width: 1;
+  stroke-dasharray: 6 10;
+}
+.lm-orb__tick {
+  fill: var(--color-accent);
+}
+.lm-orb__hub {
+  fill: var(--color-accent);
+  opacity: 0.85;
+}
+.lm-orb__spin {
+  transform-origin: 100px 100px;
+  animation: lm-orb-spin 48s linear infinite;
+}
+@keyframes lm-orb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lm-orb__spin {
+    animation: none;
+  }
+}
