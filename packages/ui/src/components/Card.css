@@ -1,6 +1,6 @@
 .lm-card {
   background: var(--glass-surface-bg);
-  border: 1px solid var(--glass-surface-border);
+  border: var(--border-width) solid var(--glass-surface-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--glass-surface-shadow);
   -webkit-backdrop-filter: saturate(140%) blur(var(--glass-blur));
