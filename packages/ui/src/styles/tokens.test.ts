@@ -8,13 +8,21 @@ import { fileURLToPath, URL as NodeURL } from 'node:url';
 // Aliasing avoids that rewrite so this resolves to a real file:// path.
 const css = readFileSync(fileURLToPath(new NodeURL('./tokens.css', import.meta.url)), 'utf8');
 
-/** Extract the declaration block that follows the first occurrence of `selector`. */
+/**
+ * Extract the declaration block opened by `selector`.
+ *
+ * Must match the selector only where it actually OPENS a block. A plain
+ * `indexOf` is wrong: tokens.css names `[data-theme='dark']` in its header
+ * comment, so indexOf finds the comment first and returns the light block —
+ * silently making every dark-theme assertion a duplicate of the light ones.
+ */
 function blockFor(selector: string): string {
-  const at = css.indexOf(selector);
-  if (at === -1) throw new Error(`Selector not found in tokens.css: ${selector}`);
-  const start = css.indexOf('{', at);
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = new RegExp(`^\\s*${escaped}[^{]*\\{`, 'm').exec(css);
+  if (!match) throw new Error(`Selector not found in tokens.css: ${selector}`);
+  const start = match.index + match[0].length;
   const end = css.indexOf('}', start);
-  return css.slice(start + 1, end);
+  return css.slice(start, end);
 }
 
 function tokensOf(block: string): Record<string, string> {
@@ -77,8 +85,19 @@ const THEMES = [
   { name: 'dark', tokens: tokensOf(blockFor("[data-theme='dark']")) },
 ];
 
-describe.each(THEMES)('$name theme contrast', ({ tokens }) => {
+/**
+ * Sentinels proving each theme's block was actually parsed. Without these, a
+ * selector bug that returns the wrong block makes every assertion below pass
+ * vacuously against a duplicate palette.
+ */
+const EXPECTED_BG: Record<string, string> = { light: '#f4f8f5', dark: '#021c0d' };
+
+describe.each(THEMES)('$name theme contrast', ({ name, tokens }) => {
   const bg = () => tokens['--color-bg']!;
+
+  it('parsed the block belonging to this theme', () => {
+    expect(bg()).toBe(EXPECTED_BG[name]);
+  });
 
   it('body text on the page background meets AA (4.5:1)', () => {
     expect(contrast(tokens['--color-text']!, bg(), bg())).toBeGreaterThanOrEqual(4.5);
