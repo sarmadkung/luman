@@ -1,6 +1,6 @@
 .lm-panel {
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
+  background: var(--glass-surface-bg);
+  border: 1px solid var(--glass-surface-border);
   border-radius: var(--radius-md);
   overflow: hidden;
 }

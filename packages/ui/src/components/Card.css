@@ -1,14 +1,16 @@
 .lm-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  background: var(--glass-surface-bg);
+  border: 1px solid var(--glass-surface-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-surface-shadow);
+  -webkit-backdrop-filter: saturate(140%) blur(var(--glass-blur));
+  backdrop-filter: saturate(140%) blur(var(--glass-blur));
   overflow: hidden;
 }
 .lm-card__title {
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  font-weight: 600;
+  border-bottom: 1px solid var(--glass-surface-border);
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-lg);
 }
 .lm-card__body {
