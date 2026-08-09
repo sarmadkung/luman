@@ -129,3 +129,72 @@ describe.each(THEMES)('$name theme contrast', ({ name, tokens }) => {
     ).toBeGreaterThanOrEqual(4.5);
   });
 });
+
+/* ==================================================================
+ * Route backgrounds.
+ *
+ * The rendered background is no longer --color-bg: it is the per-route
+ * gradient from routes.css. Checking only --color-bg would leave the surface
+ * that text actually sits on completely ungated, so every route base — and
+ * the brightest point of its glow — is verified here too.
+ * ================================================================== */
+
+const routesCss = readFileSync(fileURLToPath(new NodeURL('./routes.css', import.meta.url)), 'utf8');
+
+/** Every `[data-route='x']` block under the given theme prefix. */
+function routeBlocks(
+  themePrefix: string,
+): Array<{ route: string; tokens: Record<string, string> }> {
+  const escaped = themePrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`^${escaped}\\s*\\[data-route='([\\w-]+)'\\]\\s*\\{([^}]*)\\}`, 'gm');
+  const out: Array<{ route: string; tokens: Record<string, string> }> = [];
+  for (const m of routesCss.matchAll(re)) {
+    const tokens: Record<string, string> = {};
+    for (const d of m[2]!.matchAll(/(--[\w-]+):\s*([^;]+);/g)) tokens[d[1]!] = d[2]!.trim();
+    out.push({ route: m[1]!, tokens });
+  }
+  return out;
+}
+
+/** Replicates CSS `color-mix(in srgb, top pct%, transparent)` over `base`. */
+function mix(top: string, pct: number, base: string): Rgb {
+  const t = parseColor(top);
+  const b = parseColor(base);
+  return {
+    r: t.r * pct + b.r * (1 - pct),
+    g: t.g * pct + b.g * (1 - pct),
+    b: t.b * pct + b.b * (1 - pct),
+    a: 1,
+  };
+}
+
+function contrastRgb(fg: Rgb, bg: Rgb): number {
+  const a = luminance(over(fg, bg));
+  const b = luminance(bg);
+  const [hi, lo] = a > b ? [a, b] : [b, a];
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+const DARK_ROUTES = routeBlocks("[data-theme='dark']");
+const DARK_TOKENS = tokensOf(blockFor("[data-theme='dark']"));
+const DARK_GLOW_PCT = 0.34; // --route-glow-strength for dark, from tokens.css
+
+describe('dark route backgrounds', () => {
+  it('defines a block for every destination', () => {
+    expect(DARK_ROUTES.length).toBeGreaterThanOrEqual(9);
+  });
+
+  it.each(DARK_ROUTES)('$route: body text on the route base meets AA', ({ tokens }) => {
+    const ratio = contrastRgb(
+      parseColor(DARK_TOKENS['--color-text']!),
+      parseColor(tokens['--route-base']!),
+    );
+    expect(ratio).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(DARK_ROUTES)('$route: body text survives the brightest glow', ({ tokens }) => {
+    const lit = mix(tokens['--route-glow']!, DARK_GLOW_PCT, tokens['--route-base']!);
+    const ratio = contrastRgb(parseColor(DARK_TOKENS['--color-text']!), lit);
+    expect(ratio).toBeGreaterThanOrEqual(4.5);
+  });
+});

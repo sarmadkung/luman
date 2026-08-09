@@ -1,10 +1,17 @@
+/*
+ * Nested inside a glass card, so it uses the same lit-pane treatment rather
+ * than an opaque fill — an opaque tile inside frosted glass reads as a hole
+ * punched through the surface.
+ */
 .lm-rec {
   display: flex;
   gap: var(--space-3);
   padding: var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-bg-elevated);
+  border: var(--border-width) solid var(--glass-surface-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--glass-hover);
+  background-image: var(--glass-sheen);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
 }
 .lm-rec__icon {
   font-size: 20px;
@@ -14,7 +21,9 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
-  background: var(--color-bg);
+  background: var(--glass-hover);
+  border: var(--border-width) solid var(--glass-surface-border);
+  color: var(--color-text);
   flex-shrink: 0;
 }
 .lm-rec__main {

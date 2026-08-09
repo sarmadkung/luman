@@ -13,17 +13,24 @@
   pointer-events: none;
   overflow: hidden;
   background:
+    /* Specular catch — the "shine" that keeps the sheet from reading matte. */
     radial-gradient(
-      110% 95% at 26% 22%,
-      color-mix(in srgb, var(--route-glow) var(--route-glow-strength), transparent) 0%,
+      55% 45% at 68% 12%,
+      color-mix(in srgb, #ffffff var(--route-sheen-strength), transparent) 0%,
+      transparent 60%
+    ),
+    /* Main glow, kept right-of-centre so headline copy sits on a calmer field. */
+    radial-gradient(
+        95% 85% at 66% 30%,
+        color-mix(in srgb, var(--route-glow) var(--route-glow-strength), transparent) 0%,
+        transparent 62%
+      ),
+    radial-gradient(
+      80% 70% at 10% 95%,
+      color-mix(in srgb, var(--route-glow) var(--route-glow-strength-far), transparent) 0%,
       transparent 58%
     ),
-    radial-gradient(
-      85% 75% at 92% 92%,
-      color-mix(in srgb, var(--route-glow) var(--route-glow-strength-far), transparent) 0%,
-      transparent 55%
-    ),
-    linear-gradient(150deg, var(--route-base) 0%, var(--route-deep) 100%);
+    linear-gradient(155deg, var(--route-base) 0%, var(--route-deep) 100%);
   transition:
     background var(--motion-page) var(--easing-standard),
     opacity var(--motion-page) var(--easing-standard);

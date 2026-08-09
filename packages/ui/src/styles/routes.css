@@ -5,8 +5,13 @@
  * Space Lens purple and Cloud Cleanup blue. Only the BACKGROUND changes —
  * the accent stays brand green everywhere so "primary action" never moves.
  *
- * `--route-base` is the flat floor, `--route-glow` the luminous wash, and
+ * `--route-base` is the lit floor, `--route-glow` the luminous wash, and
  * `--route-deep` the far corner. `Aurora` composes all three.
+ *
+ * Dark bases are deliberately MID-tone and saturated, not near-black: the
+ * reference reads as a lit sheet of colour, and near-black bases render as
+ * dull and muddy. The glow strength in tokens.css is what keeps body text
+ * over the brightest region above 4.5:1.
  *
  * The route is set as `data-route` on the shell root by AppLayout.
  *
@@ -18,104 +23,106 @@
 
 /* ============================ LIGHT ============================ */
 :root:not([data-theme='dark']) [data-route] {
-  --route-base: #eef5f0;
-  --route-glow: #86efac;
-  --route-deep: #dfeae3;
+  --route-base: #e8f5ec;
+  --route-glow: #6ee7a0;
+  --route-deep: #d3e7da;
 }
 :root:not([data-theme='dark']) [data-route='dashboard'] {
-  --route-base: #eef6f0;
-  --route-glow: #86efac;
-  --route-deep: #dceae1;
+  --route-base: #e8f5ec;
+  --route-glow: #6ee7a0;
+  --route-deep: #d3e7da;
 }
 :root:not([data-theme='dark']) [data-route='smart-scan'] {
-  --route-base: #ecf5f5;
+  --route-base: #e4f4f3;
   --route-glow: #5eead4;
-  --route-deep: #d9eaea;
+  --route-deep: #cde7e5;
 }
 :root:not([data-theme='dark']) [data-route='cleanup'] {
-  --route-base: #edf6ef;
-  --route-glow: #6ee7a0;
-  --route-deep: #dbeae0;
+  --route-base: #e7f6ea;
+  --route-glow: #4ade80;
+  --route-deep: #d1e8d8;
 }
 :root:not([data-theme='dark']) [data-route='space-lens'] {
-  --route-base: #f2eefa;
-  --route-glow: #c4b5fd;
-  --route-deep: #e4dcf3;
+  --route-base: #efe9fb;
+  --route-glow: #a78bfa;
+  --route-deep: #ddd2f2;
 }
 :root:not([data-theme='dark']) [data-route='applications'] {
-  --route-base: #faf2e8;
-  --route-glow: #fcd34d;
-  --route-deep: #f0e2cf;
+  --route-base: #fbf1e2;
+  --route-glow: #fbbf24;
+  --route-deep: #efdec4;
 }
 :root:not([data-theme='dark']) [data-route='developer-center'] {
-  --route-base: #ecf1fa;
-  --route-glow: #93c5fd;
-  --route-deep: #d9e3f3;
+  --route-base: #e7effc;
+  --route-glow: #7dd3fc;
+  --route-deep: #d2e0f5;
 }
 :root:not([data-theme='dark']) [data-route='history'] {
-  --route-base: #eeeefa;
+  --route-base: #eaeafb;
   --route-glow: #a5b4fc;
-  --route-deep: #dcdcf3;
+  --route-deep: #d5d6f3;
 }
 :root:not([data-theme='dark']) [data-route='playground'] {
-  --route-base: #faeef4;
+  --route-base: #fbeaf3;
   --route-glow: #f9a8d4;
-  --route-deep: #f0dce7;
+  --route-deep: #f0d5e5;
 }
 :root:not([data-theme='dark']) [data-route='settings'] {
-  --route-base: #f0f2f4;
+  --route-base: #edf0f3;
   --route-glow: #cbd5e1;
-  --route-deep: #e2e6ea;
+  --route-deep: #dde2e8;
 }
 
 /* ============================ DARK ============================ */
 [data-theme='dark'] [data-route] {
-  --route-base: #04220f;
-  --route-glow: #1a8f4c;
-  --route-deep: #010d07;
+  --route-base: #14532d;
+  --route-glow: #22c55e;
+  --route-deep: #052e16;
 }
 [data-theme='dark'] [data-route='dashboard'] {
-  --route-base: #04220f;
-  --route-glow: #1a8f4c;
-  --route-deep: #010d07;
+  --route-base: #14532d;
+  --route-glow: #22c55e;
+  --route-deep: #052e16;
 }
 [data-theme='dark'] [data-route='smart-scan'] {
-  --route-base: #032422;
-  --route-glow: #0d9488;
-  --route-deep: #010f0f;
+  --route-base: #115e59;
+  --route-glow: #14b8a6;
+  --route-deep: #042f2e;
 }
 [data-theme='dark'] [data-route='cleanup'] {
-  --route-base: #05260f;
-  --route-glow: #16a34a;
-  --route-deep: #010f07;
+  /* Emerald rather than the dashboard's forest green, and deliberately a shade
+   * deeper: at #166534 the glow peak measured 4.40:1, just under AA. */
+  --route-base: #0d5c33;
+  --route-glow: #22c55e;
+  --route-deep: #052e16;
 }
 [data-theme='dark'] [data-route='space-lens'] {
-  --route-base: #1c0d33;
-  --route-glow: #7c3aed;
-  --route-deep: #0b0418;
+  --route-base: #4c1d95;
+  --route-glow: #8b5cf6;
+  --route-deep: #2e1065;
 }
 [data-theme='dark'] [data-route='applications'] {
-  --route-base: #2a1806;
-  --route-glow: #d97706;
-  --route-deep: #140a02;
+  --route-base: #78350f;
+  --route-glow: #f59e0b;
+  --route-deep: #451a03;
 }
 [data-theme='dark'] [data-route='developer-center'] {
-  --route-base: #051a36;
-  --route-glow: #2563eb;
-  --route-deep: #020a16;
+  --route-base: #1e3a8a;
+  --route-glow: #3b82f6;
+  --route-deep: #172554;
 }
 [data-theme='dark'] [data-route='history'] {
-  --route-base: #150e34;
-  --route-glow: #4f46e5;
-  --route-deep: #080518;
+  --route-base: #312e81;
+  --route-glow: #6366f1;
+  --route-deep: #1e1b4b;
 }
 [data-theme='dark'] [data-route='playground'] {
-  --route-base: #2b0b20;
-  --route-glow: #db2777;
-  --route-deep: #14040e;
+  --route-base: #831843;
+  --route-glow: #ec4899;
+  --route-deep: #500724;
 }
 [data-theme='dark'] [data-route='settings'] {
-  --route-base: #10171c;
-  --route-glow: #475569;
-  --route-deep: #070a0d;
+  --route-base: #334155;
+  --route-glow: #64748b;
+  --route-deep: #0f172a;
 }

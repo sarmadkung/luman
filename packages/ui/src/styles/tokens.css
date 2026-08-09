@@ -52,22 +52,39 @@
   --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 
   /* Glass — content surfaces (cards) */
-  --glass-surface-bg: rgba(255, 255, 255, 0.62);
-  --glass-surface-border: rgba(255, 255, 255, 0.75);
-  --glass-surface-shadow: 0 10px 34px rgba(31, 61, 43, 0.1);
+  --glass-surface-bg: rgba(255, 255, 255, 0.58);
+  --glass-surface-border: rgba(255, 255, 255, 0.8);
+  --glass-surface-shadow: 0 12px 40px rgba(31, 61, 43, 0.1);
   /* Light catch along a glass element's top edge. */
-  --glass-highlight: rgba(255, 255, 255, 0.9);
-  --glass-hover: rgba(255, 255, 255, 0.45);
+  --glass-highlight: rgba(255, 255, 255, 0.95);
+  --glass-hover: rgba(255, 255, 255, 0.42);
+  /*
+   * The vertical light falloff laid over the flat fill. This gradient — not the
+   * fill alone — is what makes glass read as a smooth lit pane rather than a
+   * flat tinted rectangle. Kept separate from --glass-surface-bg so the
+   * contrast gate can still parse that token as a plain colour.
+   */
+  --glass-sheen: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.18) 42%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
   /* Aurora background hues — light */
   --aurora-1: #86efac;
   --aurora-2: #fde68a;
   --aurora-3: #15803d;
-  --aurora-opacity: 0.2;
-  --aurora-blur: 120px;
-  /* How much of the route hue the background wash carries. */
-  --route-glow-strength: 55%;
-  --route-glow-strength-far: 30%;
+  --aurora-opacity: 0.16;
+  --aurora-blur: 130px;
+  /*
+   * How much of the route hue the background wash carries. Capped so body text
+   * over the brightest region of the glow stays above 4.5:1 — pushing this
+   * past ~38% on a mid-tone base drops white text under AA.
+   */
+  --route-glow-strength: 34%;
+  --route-glow-strength-far: 20%;
+  --route-sheen-strength: 7%;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
@@ -115,21 +132,34 @@
   --glass-border: rgba(255, 255, 255, 0.05);
   --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 
-  --glass-surface-bg: rgba(255, 255, 255, 0.07);
-  --glass-surface-border: rgba(255, 255, 255, 0.13);
-  --glass-surface-shadow: 0 10px 34px rgba(0, 0, 0, 0.22);
+  --glass-surface-bg: rgba(255, 255, 255, 0.08);
+  --glass-surface-border: rgba(255, 255, 255, 0.14);
+  --glass-surface-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
   /* Light catch along a glass element's top edge. */
-  --glass-highlight: rgba(255, 255, 255, 0.14);
-  --glass-hover: rgba(255, 255, 255, 0.05);
+  --glass-highlight: rgba(255, 255, 255, 0.16);
+  --glass-hover: rgba(255, 255, 255, 0.06);
+  /*
+   * The vertical light falloff laid over the flat fill. This gradient — not the
+   * fill alone — is what makes glass read as a smooth lit pane rather than a
+   * flat tinted rectangle. Kept separate from --glass-surface-bg so the
+   * contrast gate can still parse that token as a plain colour.
+   */
+  --glass-sheen: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 42%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
   --aurora-1: #86efac;
   --aurora-2: #fde68a;
   --aurora-3: #15803d;
-  --aurora-opacity: 0.16;
-  --aurora-blur: 120px;
+  --aurora-opacity: 0.14;
+  --aurora-blur: 130px;
   /* How much of the route hue the background wash carries. */
-  --route-glow-strength: 42%;
-  --route-glow-strength-far: 22%;
+  --route-glow-strength: 48%;
+  --route-glow-strength-far: 26%;
+  --route-sheen-strength: 55%;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
@@ -215,8 +245,8 @@
   --opacity-hover-overlay: 0.06;
 
   /* Glass */
-  --glass-blur: 20px;
-  --glass-blur-strong: 32px;
+  --glass-blur: 30px;
+  --glass-blur-strong: 44px;
   --glass-blur-chrome: 64px;
 
   /* Z-index scale */

@@ -37,7 +37,8 @@
   height: 34px;
   flex: none;
   border-radius: var(--radius-md);
-  background: var(--glass-surface-bg);
+  background-color: var(--glass-surface-bg);
+  background-image: var(--glass-sheen);
   border: var(--border-width) solid var(--glass-surface-border);
   box-shadow: inset 0 1px 0 var(--glass-highlight);
   color: var(--color-text);
@@ -92,13 +93,16 @@
  * hairline edge and a light catch along its top, not a saturated accent block.
  */
 .lm-sidebar__link--active {
-  background: var(--glass-surface-bg);
+  background-color: var(--glass-surface-bg);
+  background-image: var(--glass-sheen);
   border-color: var(--glass-surface-border);
-  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    var(--glass-surface-shadow);
   color: var(--color-text);
   font-weight: var(--font-weight-semibold);
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
+  backdrop-filter: saturate(160%) blur(var(--glass-blur));
 }
 .lm-sidebar__footer {
   margin-top: auto;
