@@ -225,5 +225,6 @@
   --sidebar-width-collapsed: 60px;
   --header-height: 56px;
   --toolbar-height: 44px;
+  --statusbar-height: 28px;
   --content-max-width: 1200px;
 }
