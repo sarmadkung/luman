@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Glass, Icon, IconButton } from '@luman/ui';
+import { Icon, IconButton } from '@luman/ui';
 import { HardDrive, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { NAV_ITEMS, type NavItem } from '../../app/nav-items';
 import { useNavigationStore } from '../../stores';
@@ -49,10 +49,7 @@ export function Sidebar() {
   );
 
   return (
-    <Glass
-      variant="chrome"
-      className={['lm-sidebar', collapsed && 'lm-sidebar--collapsed'].filter(Boolean).join(' ')}
-    >
+    <div className={['lm-sidebar', collapsed && 'lm-sidebar--collapsed'].filter(Boolean).join(' ')}>
       <nav aria-label="Primary" className="lm-sidebar__nav" ref={navRef} onKeyDown={onKeyDown}>
         <div className="lm-sidebar__brand" data-tauri-drag-region>
           <span className="lm-sidebar__logo" aria-hidden="true">
@@ -79,6 +76,6 @@ export function Sidebar() {
           </div>
         </div>
       </nav>
-    </Glass>
+    </div>
   );
 }

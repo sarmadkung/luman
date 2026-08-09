@@ -1,16 +1,18 @@
+/*
+ * Transparent and borderless, like the header — the status strip is the bottom
+ * edge of the shared surface, not a bar sitting on top of it.
+ */
 .lm-statusbar {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   height: var(--statusbar-height);
   flex: none;
-  padding: 0 var(--space-5);
-  border-top: var(--border-width) solid var(--color-border);
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur-chrome));
-  backdrop-filter: saturate(180%) blur(var(--glass-blur-chrome));
+  padding: 0 var(--space-6);
+  background: transparent;
+  border: none;
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
 }
 .lm-statusbar__dot {
   width: 8px;

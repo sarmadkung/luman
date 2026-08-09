@@ -1,10 +1,13 @@
+/*
+ * The rail is transparent: it sits on the shell's shared background rather
+ * than owning a panel. No border, no fill — only the active pill and the
+ * footer divider mark it out.
+ */
 .lm-sidebar {
   width: var(--sidebar-width);
   height: 100%;
-  border-radius: 0;
-  border-top: none;
-  border-bottom: none;
-  border-left: none;
+  flex: none;
+  background: transparent;
   transition: width var(--motion-page) var(--easing-standard);
   z-index: var(--z-sidebar);
 }
@@ -15,7 +18,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-4);
   gap: var(--space-2);
 }
 .lm-sidebar__brand {
@@ -23,20 +26,21 @@
   align-items: center;
   gap: var(--space-3);
   min-height: var(--header-height);
-  padding: var(--space-2);
-  margin-bottom: var(--space-4);
+  padding: 0 var(--space-2);
+  margin-bottom: var(--space-5);
 }
 .lm-sidebar__logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   flex: none;
-  border-radius: var(--radius-sm);
-  background: var(--color-accent-soft);
+  border-radius: var(--radius-md);
+  background: var(--glass-surface-bg);
   border: var(--border-width) solid var(--glass-surface-border);
-  color: var(--color-accent);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  color: var(--color-text);
 }
 .lm-sidebar__brand-text {
   display: flex;
@@ -44,14 +48,14 @@
   min-width: 0;
 }
 .lm-sidebar__name {
-  font-size: var(--font-size-title);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-headline);
+  font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text);
 }
 .lm-sidebar__tagline {
   font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
 }
 .lm-sidebar__list,
 .lm-sidebar__footer-nav {
@@ -60,7 +64,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 .lm-sidebar__list {
   flex: 1;
@@ -69,9 +73,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
   color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
   border: var(--border-width) solid transparent;
   transition:
@@ -79,19 +84,26 @@
     color var(--transition-fast);
 }
 .lm-sidebar__link:hover {
-  background: var(--color-surface-hover);
+  background: var(--glass-hover);
   color: var(--color-text);
 }
+/*
+ * The active pill is the reference's signature: a soft translucent slab with a
+ * hairline edge and a light catch along its top, not a saturated accent block.
+ */
 .lm-sidebar__link--active {
-  background: var(--color-accent-soft);
+  background: var(--glass-surface-bg);
   border-color: var(--glass-surface-border);
-  color: var(--color-accent);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  color: var(--color-text);
   font-weight: var(--font-weight-semibold);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
 }
 .lm-sidebar__footer {
   margin-top: auto;
   padding-top: var(--space-3);
-  border-top: var(--border-width) solid var(--color-border);
+  border-top: var(--border-width) solid var(--glass-surface-border);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);

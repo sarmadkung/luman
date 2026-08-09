@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Glass, Icon, IconButton, type ThemeMode } from '@luman/ui';
+import { Icon, IconButton, type ThemeMode } from '@luman/ui';
 import { Search, Sun, Moon, Monitor, Settings } from 'lucide-react';
 import { NAV_ITEMS } from '../../app/nav-items';
 import { useThemeStore } from '../../theme';
@@ -35,7 +35,7 @@ export function Header() {
   const setMode = useThemeStore((s) => s.setMode);
 
   return (
-    <Glass variant="chrome" className="lm-header" data-tauri-drag-region>
+    <header className="lm-header" data-tauri-drag-region>
       {/*
         Deliberately not a heading element. The page content owns the document's
         single <h1> — on the dashboard that is the hero. A heading here would
@@ -68,6 +68,6 @@ export function Header() {
         />
         <IconButton icon={Settings} label="Open settings" onClick={() => navigate('/settings')} />
       </div>
-    </Glass>
+    </header>
   );
 }

@@ -11,7 +11,9 @@
 .lm-glass--surface {
   background: var(--glass-surface-bg);
   border-color: var(--glass-surface-border);
-  box-shadow: var(--glass-surface-shadow);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    var(--glass-surface-shadow);
   -webkit-backdrop-filter: saturate(140%) blur(var(--glass-blur));
   backdrop-filter: saturate(140%) blur(var(--glass-blur));
 }

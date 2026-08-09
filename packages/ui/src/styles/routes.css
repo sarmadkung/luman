@@ -1,0 +1,121 @@
+/*
+ * Per-route background hues.
+ *
+ * Each destination owns a colour, the way CleanMyMac gives Cleanup green,
+ * Space Lens purple and Cloud Cleanup blue. Only the BACKGROUND changes —
+ * the accent stays brand green everywhere so "primary action" never moves.
+ *
+ * `--route-base` is the flat floor, `--route-glow` the luminous wash, and
+ * `--route-deep` the far corner. `Aurora` composes all three.
+ *
+ * The route is set as `data-route` on the shell root by AppLayout.
+ *
+ * ORDER MATTERS. `:root [data-route]` and `[data-theme='dark'] [data-route]`
+ * have identical specificity (0,2,0), so whichever is declared last wins.
+ * Light is therefore declared FIRST and guarded with :not([data-theme='dark']),
+ * and dark comes last.
+ */
+
+/* ============================ LIGHT ============================ */
+:root:not([data-theme='dark']) [data-route] {
+  --route-base: #eef5f0;
+  --route-glow: #86efac;
+  --route-deep: #dfeae3;
+}
+:root:not([data-theme='dark']) [data-route='dashboard'] {
+  --route-base: #eef6f0;
+  --route-glow: #86efac;
+  --route-deep: #dceae1;
+}
+:root:not([data-theme='dark']) [data-route='smart-scan'] {
+  --route-base: #ecf5f5;
+  --route-glow: #5eead4;
+  --route-deep: #d9eaea;
+}
+:root:not([data-theme='dark']) [data-route='cleanup'] {
+  --route-base: #edf6ef;
+  --route-glow: #6ee7a0;
+  --route-deep: #dbeae0;
+}
+:root:not([data-theme='dark']) [data-route='space-lens'] {
+  --route-base: #f2eefa;
+  --route-glow: #c4b5fd;
+  --route-deep: #e4dcf3;
+}
+:root:not([data-theme='dark']) [data-route='applications'] {
+  --route-base: #faf2e8;
+  --route-glow: #fcd34d;
+  --route-deep: #f0e2cf;
+}
+:root:not([data-theme='dark']) [data-route='developer-center'] {
+  --route-base: #ecf1fa;
+  --route-glow: #93c5fd;
+  --route-deep: #d9e3f3;
+}
+:root:not([data-theme='dark']) [data-route='history'] {
+  --route-base: #eeeefa;
+  --route-glow: #a5b4fc;
+  --route-deep: #dcdcf3;
+}
+:root:not([data-theme='dark']) [data-route='playground'] {
+  --route-base: #faeef4;
+  --route-glow: #f9a8d4;
+  --route-deep: #f0dce7;
+}
+:root:not([data-theme='dark']) [data-route='settings'] {
+  --route-base: #f0f2f4;
+  --route-glow: #cbd5e1;
+  --route-deep: #e2e6ea;
+}
+
+/* ============================ DARK ============================ */
+[data-theme='dark'] [data-route] {
+  --route-base: #04220f;
+  --route-glow: #1a8f4c;
+  --route-deep: #010d07;
+}
+[data-theme='dark'] [data-route='dashboard'] {
+  --route-base: #04220f;
+  --route-glow: #1a8f4c;
+  --route-deep: #010d07;
+}
+[data-theme='dark'] [data-route='smart-scan'] {
+  --route-base: #032422;
+  --route-glow: #0d9488;
+  --route-deep: #010f0f;
+}
+[data-theme='dark'] [data-route='cleanup'] {
+  --route-base: #05260f;
+  --route-glow: #16a34a;
+  --route-deep: #010f07;
+}
+[data-theme='dark'] [data-route='space-lens'] {
+  --route-base: #1c0d33;
+  --route-glow: #7c3aed;
+  --route-deep: #0b0418;
+}
+[data-theme='dark'] [data-route='applications'] {
+  --route-base: #2a1806;
+  --route-glow: #d97706;
+  --route-deep: #140a02;
+}
+[data-theme='dark'] [data-route='developer-center'] {
+  --route-base: #051a36;
+  --route-glow: #2563eb;
+  --route-deep: #020a16;
+}
+[data-theme='dark'] [data-route='history'] {
+  --route-base: #150e34;
+  --route-glow: #4f46e5;
+  --route-deep: #080518;
+}
+[data-theme='dark'] [data-route='playground'] {
+  --route-base: #2b0b20;
+  --route-glow: #db2777;
+  --route-deep: #14040e;
+}
+[data-theme='dark'] [data-route='settings'] {
+  --route-base: #10171c;
+  --route-glow: #475569;
+  --route-deep: #070a0d;
+}

@@ -4,10 +4,13 @@ import './Breadcrumb.css';
 const LABELS: Record<string, string> = {
   '': 'Dashboard',
   'smart-scan': 'Smart Scan',
+  cleanup: 'Cleanup',
   'space-lens': 'Space Lens',
-  'large-files': 'Large Files',
   applications: 'Applications',
+  'developer-center': 'Developer Center',
+  'large-files': 'Large Files',
   history: 'History',
+  playground: 'Playground',
   settings: 'Settings',
 };
 

@@ -1,13 +1,16 @@
+/*
+ * Transparent, borderless: the top bar is a region of the shared surface, not
+ * a panel laid over it. Nothing separates it from the sidebar or the content.
+ */
 .lm-header {
   height: var(--header-height);
-  border-radius: 0;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+  flex: none;
+  background: transparent;
+  border: none;
   display: flex;
   align-items: center;
   gap: var(--space-5);
-  padding: 0 var(--space-5);
+  padding: 0 var(--space-6) 0 var(--space-5);
   z-index: var(--z-sticky);
 }
 .lm-header__titles {
@@ -40,9 +43,12 @@
 .lm-header__search-input {
   width: 100%;
   padding: var(--space-2) var(--space-3) var(--space-2) var(--space-6);
-  border-radius: var(--radius-md);
-  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-full);
+  border: var(--border-width) solid var(--glass-surface-border);
   background: var(--glass-surface-bg);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
   color: var(--color-text);
   font-size: var(--font-size-body);
   font-family: inherit;

@@ -1,5 +1,6 @@
 /* Global resets, base element styling, and accessibility defaults. */
 @import './tokens.css';
+@import './routes.css';
 
 * {
   box-sizing: border-box;

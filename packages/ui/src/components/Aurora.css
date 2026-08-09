@@ -1,48 +1,69 @@
+/*
+ * One continuous background for the entire window. The sidebar, header and
+ * status bar all sit ON this surface rather than owning panels of their own,
+ * so the window reads as a single lit sheet of colour.
+ *
+ * Composition, back to front: a diagonal base wash, a large off-centre glow,
+ * and a soft corner highlight. Hue comes from the route (see routes.css).
+ */
 .lm-aurora {
   position: fixed;
   inset: 0;
   z-index: var(--z-base);
   pointer-events: none;
   overflow: hidden;
-  background: var(--color-bg);
+  background:
+    radial-gradient(
+      110% 95% at 26% 22%,
+      color-mix(in srgb, var(--route-glow) var(--route-glow-strength), transparent) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      85% 75% at 92% 92%,
+      color-mix(in srgb, var(--route-glow) var(--route-glow-strength-far), transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(150deg, var(--route-base) 0%, var(--route-deep) 100%);
+  transition:
+    background var(--motion-page) var(--easing-standard),
+    opacity var(--motion-page) var(--easing-standard);
 }
+
+/*
+ * Two slow highlights that keep the surface from reading as a flat gradient.
+ * Deliberately subtle — the gradient above carries the colour.
+ */
 .lm-aurora__blob {
   position: absolute;
   border-radius: var(--radius-full);
   filter: blur(var(--aurora-blur));
 }
-/*
- * Each blob carries its own weight relative to --aurora-opacity, mirroring the
- * source design: a bright mint highlight, a much fainter amber, and a deep
- * green that adds depth rather than brightness. A single shared opacity makes
- * the whole surface wash out.
- */
 .lm-aurora__blob--1 {
-  width: 800px;
-  height: 800px;
-  top: -200px;
-  left: -200px;
-  background: var(--aurora-1);
-  opacity: calc(var(--aurora-opacity) * 0.9);
-  animation: lm-aurora-drift-1 20s infinite alternate ease-in-out;
+  width: 900px;
+  height: 900px;
+  top: -280px;
+  left: -180px;
+  background: var(--route-glow);
+  opacity: calc(var(--aurora-opacity) * 0.85);
+  animation: lm-aurora-drift-1 26s infinite alternate ease-in-out;
 }
 .lm-aurora__blob--2 {
   width: 1000px;
   height: 1000px;
-  right: -200px;
-  bottom: -300px;
-  background: var(--aurora-2);
-  opacity: calc(var(--aurora-opacity) * 0.45);
-  animation: lm-aurora-drift-2 25s infinite alternate ease-in-out;
+  right: -300px;
+  bottom: -360px;
+  background: var(--route-glow);
+  opacity: calc(var(--aurora-opacity) * 0.5);
+  animation: lm-aurora-drift-2 32s infinite alternate ease-in-out;
 }
 .lm-aurora__blob--3 {
-  width: 900px;
-  height: 900px;
-  top: 20%;
-  left: 30%;
-  background: var(--aurora-3);
-  opacity: calc(var(--aurora-opacity) * 1.1);
-  animation: lm-aurora-drift-3 30s infinite alternate ease-in-out;
+  width: 720px;
+  height: 720px;
+  top: 34%;
+  left: 46%;
+  background: var(--aurora-2);
+  opacity: calc(var(--aurora-opacity) * 0.22);
+  animation: lm-aurora-drift-3 38s infinite alternate ease-in-out;
 }
 
 @keyframes lm-aurora-drift-1 {
@@ -50,10 +71,10 @@
     transform: translate(0, 0) scale(1);
   }
   50% {
-    transform: translate(150px, 200px) scale(1.1);
+    transform: translate(120px, 160px) scale(1.08);
   }
   100% {
-    transform: translate(-50px, 100px) scale(0.9);
+    transform: translate(-40px, 80px) scale(0.94);
   }
 }
 @keyframes lm-aurora-drift-2 {
@@ -61,10 +82,10 @@
     transform: translate(0, 0) scale(1);
   }
   50% {
-    transform: translate(-200px, -150px) scale(0.9);
+    transform: translate(-150px, -120px) scale(0.94);
   }
   100% {
-    transform: translate(100px, -200px) scale(1.1);
+    transform: translate(80px, -160px) scale(1.06);
   }
 }
 @keyframes lm-aurora-drift-3 {
@@ -72,10 +93,10 @@
     transform: translate(0, 0) scale(1);
   }
   50% {
-    transform: translate(150px, -150px) scale(1.2);
+    transform: translate(110px, -110px) scale(1.12);
   }
   100% {
-    transform: translate(-150px, 150px) scale(0.8);
+    transform: translate(-110px, 110px) scale(0.9);
   }
 }
 
