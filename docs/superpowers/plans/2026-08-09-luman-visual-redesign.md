@@ -706,7 +706,7 @@ In `packages/ui/src/components/Card.css`, replace the `.lm-card` rule:
 ```css
 .lm-card {
   background: var(--glass-surface-bg);
-  border: 1px solid var(--glass-surface-border);
+  border: var(--border-width) solid var(--glass-surface-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--glass-surface-shadow);
   -webkit-backdrop-filter: saturate(140%) blur(var(--glass-blur));
@@ -731,7 +731,7 @@ In `packages/ui/src/components/DashboardCard.css`, replace the `.lm-dcard` rule 
 ```css
 .lm-dcard {
   background: var(--glass-surface-bg);
-  border: 1px solid var(--glass-surface-border);
+  border: var(--border-width) solid var(--glass-surface-border);
   border-radius: var(--radius-xl);
   box-shadow: var(--glass-surface-shadow);
   -webkit-backdrop-filter: saturate(140%) blur(var(--glass-blur));
@@ -748,10 +748,10 @@ In `packages/ui/src/components/Panel.css`, replace the `background` and `border`
 
 ```css
   background: var(--glass-surface-bg);
-  border: 1px solid var(--glass-surface-border);
+  border: var(--border-width) solid var(--glass-surface-border);
 ```
 
-Leave every other declaration in those files untouched.
+Leave every other declaration in those files untouched. Note the border width stays a token — writing a literal `1px` here would violate this plan's own no-hardcoded-values constraint, even though the two happen to be equal today.
 
 - [ ] **Step 6: Run the test to verify it passes**
 
