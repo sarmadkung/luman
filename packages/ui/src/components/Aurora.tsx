@@ -1,17 +1,19 @@
 import './Aurora.css';
 
 /**
- * Aurora background. Three large, heavily blurred blobs that drift slowly
- * behind all content. Decorative only — never interactive, never announced.
- * Drift is disabled under `prefers-reduced-motion: reduce`; the blobs then
- * render static. Opacity is theme-driven: subtle in light, luminous in dark.
+ * Aurora background — the single continuous surface every other chrome
+ * element sits on. A static base sheet carries the route's colour; two soft
+ * lights orbit the inside of the window on long co-prime loops so the
+ * highlight is always moving without ever visibly repeating.
+ *
+ * Decorative only — never interactive, never announced. Under
+ * `prefers-reduced-motion: reduce` the lights hold a fixed pose.
  */
 export function Aurora() {
   return (
     <div className="lm-aurora" aria-hidden="true">
-      <div className="lm-aurora__blob lm-aurora__blob--1" />
-      <div className="lm-aurora__blob lm-aurora__blob--2" />
-      <div className="lm-aurora__blob lm-aurora__blob--3" />
+      <div className="lm-aurora__light lm-aurora__light--a" />
+      <div className="lm-aurora__light lm-aurora__light--b" />
     </div>
   );
 }

@@ -1,17 +1,32 @@
 /*
- * Per-route background hues.
+ * Per-route background palette.
  *
  * Each destination owns a colour, the way CleanMyMac gives Cleanup green,
  * Space Lens purple and Cloud Cleanup blue. Only the BACKGROUND changes —
  * the accent stays brand green everywhere so "primary action" never moves.
  *
- * `--route-base` is the lit floor, `--route-glow` the luminous wash, and
- * `--route-deep` the far corner. `Aurora` composes all three.
+ * Four tokens per route, consumed by `Aurora`:
  *
- * Dark bases are deliberately MID-tone and saturated, not near-black: the
- * reference reads as a lit sheet of colour, and near-black bases render as
- * dull and muddy. The glow strength in tokens.css is what keeps body text
- * over the brightest region above 4.5:1.
+ *   --route-base     near end of the static base sheet (upper-left)
+ *   --route-deep     far end of the base sheet (lower-right) — darkest value
+ *   --route-light-a  warm orbiting light
+ *   --route-light-b  cool orbiting light
+ *
+ * The two lights are OPAQUE and composite with plain alpha — no blend mode.
+ * Overlapping two opaque fills yields the top fill, never something brighter,
+ * so the surface can never exceed max(light-a, light-b). Both lights are also
+ * generated at the SAME relative luminance as the route's measured lit value,
+ * so a route's text contrast is one number rather than four. That is what lets
+ * the background move without reopening the contrast question — see
+ * docs/design-system/21_REFERENCE_ANALYSIS.md.
+ *
+ * Hue: light-a and light-b sit ±14° either side of the route hue. As they
+ * orbit past each other the surface appears to shift temperature, which is
+ * the cool-left/warm-right drift measured in the reference.
+ *
+ * Values are generated, not eyeballed. Rotating hue at fixed HLS lightness is
+ * not luminance-preserving (cyan carries far more luminance than blue at equal
+ * L), so lightness is re-solved per tint to hit the target luminance.
  *
  * The route is set as `data-route` on the shell root by AppLayout.
  *
@@ -23,106 +38,130 @@
 
 /* ============================ LIGHT ============================ */
 :root:not([data-theme='dark']) [data-route] {
-  --route-base: #e8f5ec;
-  --route-glow: #6ee7a0;
+  --route-base: #deeee3;
   --route-deep: #d3e7da;
+  --route-light-a: #e9f5e9;
+  --route-light-b: #e7f5ee;
 }
 :root:not([data-theme='dark']) [data-route='dashboard'] {
-  --route-base: #e8f5ec;
-  --route-glow: #6ee7a0;
+  --route-base: #deeee3;
   --route-deep: #d3e7da;
+  --route-light-a: #e9f5e9;
+  --route-light-b: #e7f5ee;
 }
 :root:not([data-theme='dark']) [data-route='smart-scan'] {
-  --route-base: #e4f4f3;
-  --route-glow: #5eead4;
+  --route-base: #d8eeec;
   --route-deep: #cde7e5;
+  --route-light-a: #e5f5f0;
+  --route-light-b: #e6f3f5;
 }
 :root:not([data-theme='dark']) [data-route='cleanup'] {
-  --route-base: #e7f6ea;
-  --route-glow: #4ade80;
+  --route-base: #dcefe1;
   --route-deep: #d1e8d8;
+  --route-light-a: #e8f6e8;
+  --route-light-b: #e6f5ed;
 }
 :root:not([data-theme='dark']) [data-route='space-lens'] {
-  --route-base: #efe9fb;
-  --route-glow: #a78bfa;
+  --route-base: #e6def6;
   --route-deep: #ddd2f2;
+  --route-light-a: #ebeafb;
+  --route-light-b: #f2e8fb;
 }
 :root:not([data-theme='dark']) [data-route='applications'] {
-  --route-base: #fbf1e2;
-  --route-glow: #fbbf24;
+  --route-base: #f5e8d3;
   --route-deep: #efdec4;
+  --route-light-a: #fcf0ea;
+  --route-light-b: #f9f2d3;
 }
 :root:not([data-theme='dark']) [data-route='developer-center'] {
-  --route-base: #e7effc;
-  --route-glow: #7dd3fc;
+  --route-base: #dce8f8;
   --route-deep: #d2e0f5;
+  --route-light-a: #e1f1fb;
+  --route-light-b: #ebeefc;
 }
 :root:not([data-theme='dark']) [data-route='history'] {
-  --route-base: #eaeafb;
-  --route-glow: #a5b4fc;
+  --route-base: #e0e0f7;
   --route-deep: #d5d6f3;
+  --route-light-a: #e6ebfa;
+  --route-light-b: #ede9fb;
 }
 :root:not([data-theme='dark']) [data-route='playground'] {
-  --route-base: #fbeaf3;
-  --route-glow: #f9a8d4;
+  --route-base: #f6e0ec;
   --route-deep: #f0d5e5;
+  --route-light-a: #fbeaf7;
+  --route-light-b: #fbeaef;
 }
 :root:not([data-theme='dark']) [data-route='settings'] {
-  --route-base: #edf0f3;
-  --route-glow: #cbd5e1;
+  --route-base: #e5e9ee;
   --route-deep: #dde2e8;
+  --route-light-a: #ecf0f2;
+  --route-light-b: #eeeff4;
 }
 
 /* ============================ DARK ============================ */
+/*
+ * Dashboard, Space Lens and Developer Center carry values sampled directly
+ * from the reference; the rest are generated at matching lightness and
+ * saturation. Bases are mid-tone, not near-black: a near-black base renders
+ * muddy, while the reference reads as a lit sheet of colour.
+ */
 [data-theme='dark'] [data-route] {
-  --route-base: #14532d;
-  --route-glow: #22c55e;
-  --route-deep: #052e16;
+  --route-base: #1e4a1d;
+  --route-deep: #0f2d10;
+  --route-light-a: #3a6629;
+  --route-light-b: #2a6635;
 }
 [data-theme='dark'] [data-route='dashboard'] {
-  --route-base: #14532d;
-  --route-glow: #22c55e;
-  --route-deep: #052e16;
+  --route-base: #1e4a1d;
+  --route-deep: #0f2d10;
+  --route-light-a: #3a6629;
+  --route-light-b: #2a6635;
 }
 [data-theme='dark'] [data-route='smart-scan'] {
-  --route-base: #115e59;
-  --route-glow: #14b8a6;
-  --route-deep: #042f2e;
+  --route-base: #154b48;
+  --route-deep: #0b2b2a;
+  --route-light-a: #1f6c55;
+  --route-light-b: #226877;
 }
 [data-theme='dark'] [data-route='cleanup'] {
-  /* Emerald rather than the dashboard's forest green, and deliberately a shade
-   * deeper: at #166534 the glow peak measured 4.40:1, just under AA. */
-  --route-base: #0d5c33;
-  --route-glow: #22c55e;
-  --route-deep: #052e16;
+  --route-base: #245621;
+  --route-deep: #123513;
+  --route-light-a: #45752e;
+  --route-light-b: #2f783a;
 }
 [data-theme='dark'] [data-route='space-lens'] {
-  --route-base: #4c1d95;
-  --route-glow: #8b5cf6;
-  --route-deep: #2e1065;
+  --route-base: #220d55;
+  --route-deep: #110a31;
+  --route-light-a: #1f1288;
+  --route-light-b: #420e69;
 }
 [data-theme='dark'] [data-route='applications'] {
-  --route-base: #78350f;
-  --route-glow: #f59e0b;
-  --route-deep: #451a03;
+  --route-base: #52370d;
+  --route-deep: #2b1c05;
+  --route-light-a: #904519;
+  --route-light-b: #675912;
 }
 [data-theme='dark'] [data-route='developer-center'] {
-  --route-base: #1e3a8a;
-  --route-glow: #3b82f6;
-  --route-deep: #172554;
+  --route-base: #1e4c84;
+  --route-deep: #0f2d65;
+  --route-light-a: #267088;
+  --route-light-b: #3964c7;
 }
 [data-theme='dark'] [data-route='history'] {
-  --route-base: #312e81;
-  --route-glow: #6366f1;
-  --route-deep: #1e1b4b;
+  --route-base: #201c5a;
+  --route-deep: #100e33;
+  --route-light-a: #25326f;
+  --route-light-b: #3e2777;
 }
 [data-theme='dark'] [data-route='playground'] {
-  --route-base: #831843;
-  --route-glow: #ec4899;
-  --route-deep: #500724;
+  --route-base: #531434;
+  --route-deep: #2c0a1b;
+  --route-light-a: #771e5f;
+  --route-light-b: #7c2039;
 }
 [data-theme='dark'] [data-route='settings'] {
-  --route-base: #334155;
-  --route-glow: #64748b;
-  --route-deep: #0f172a;
+  --route-base: #27303a;
+  --route-deep: #141a20;
+  --route-light-a: #37484f;
+  --route-light-b: #3e455a;
 }

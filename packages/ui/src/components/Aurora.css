@@ -3,8 +3,13 @@
  * status bar all sit ON this surface rather than owning panels of their own,
  * so the window reads as a single lit sheet of colour.
  *
- * Composition, back to front: a diagonal base wash, a large off-centre glow,
- * and a soft corner highlight. Hue comes from the route (see routes.css).
+ * Two layers:
+ *   1. A static base sheet, lit at the upper-left and falling off toward the
+ *      lower-right. The route's identity colour lives here and never moves.
+ *   2. Two soft lights that orbit the inside of the window on long, co-prime
+ *      loops. They carry the motion; the base carries the colour.
+ *
+ * Hue comes from the route (see routes.css).
  */
 .lm-aurora {
   position: fixed;
@@ -12,103 +17,130 @@
   z-index: var(--z-base);
   pointer-events: none;
   overflow: hidden;
-  background:
-    /* Specular catch — the "shine" that keeps the sheet from reading matte. */
-    radial-gradient(
-      55% 45% at 68% 12%,
-      color-mix(in srgb, #ffffff var(--route-sheen-strength), transparent) 0%,
-      transparent 60%
-    ),
-    /* Main glow, kept right-of-centre so headline copy sits on a calmer field. */
-    radial-gradient(
-        95% 85% at 66% 30%,
-        color-mix(in srgb, var(--route-glow) var(--route-glow-strength), transparent) 0%,
-        transparent 62%
-      ),
-    radial-gradient(
-      80% 70% at 10% 95%,
-      color-mix(in srgb, var(--route-glow) var(--route-glow-strength-far), transparent) 0%,
-      transparent 58%
-    ),
-    linear-gradient(155deg, var(--route-base) 0%, var(--route-deep) 100%);
-  transition:
-    background var(--motion-page) var(--easing-standard),
-    opacity var(--motion-page) var(--easing-standard);
+  background: linear-gradient(155deg, var(--route-base) 0%, var(--route-deep) 100%);
+  transition: background var(--motion-page) var(--easing-standard);
 }
 
 /*
- * Two slow highlights that keep the surface from reading as a flat gradient.
- * Deliberately subtle — the gradient above carries the colour.
+ * A soft circular light.
+ *
+ * Colour is a `background-color` behind a static radial MASK rather than a
+ * radial `background-image`. Gradients do not interpolate reliably between
+ * two different colour stops, so a gradient fill would snap on route change
+ * while a background-color cross-fades. The mask is static relative to the
+ * element, so it rasterises once and rides along with the transform.
+ *
+ * Deliberately no `filter: blur()` — a full-screen blur re-runs on every
+ * composite, and the mask's falloff already gives the softness. Deliberately
+ * no `mix-blend-mode` either: plain alpha compositing is what guarantees the
+ * surface never resolves brighter than the light itself, which is the whole
+ * basis of the contrast gate in tokens.test.ts.
  */
-.lm-aurora__blob {
+.lm-aurora__light {
   position: absolute;
-  border-radius: var(--radius-full);
-  filter: blur(var(--aurora-blur));
-}
-.lm-aurora__blob--1 {
-  width: 900px;
-  height: 900px;
-  top: -280px;
-  left: -180px;
-  background: var(--route-glow);
-  opacity: calc(var(--aurora-opacity) * 0.85);
-  animation: lm-aurora-drift-1 26s infinite alternate ease-in-out;
-}
-.lm-aurora__blob--2 {
-  width: 1000px;
-  height: 1000px;
-  right: -300px;
-  bottom: -360px;
-  background: var(--route-glow);
-  opacity: calc(var(--aurora-opacity) * 0.5);
-  animation: lm-aurora-drift-2 32s infinite alternate ease-in-out;
-}
-.lm-aurora__blob--3 {
-  width: 720px;
-  height: 720px;
-  top: 34%;
-  left: 46%;
-  background: var(--aurora-2);
-  opacity: calc(var(--aurora-opacity) * 0.22);
-  animation: lm-aurora-drift-3 38s infinite alternate ease-in-out;
+  top: 50%;
+  left: 50%;
+  width: 90vmax;
+  height: 90vmax;
+  margin: -45vmax 0 0 -45vmax;
+  -webkit-mask-image: radial-gradient(closest-side circle, #000 0%, transparent 72%);
+  mask-image: radial-gradient(closest-side circle, #000 0%, transparent 72%);
+  transition: background-color var(--motion-page) var(--easing-standard);
+  will-change: transform, opacity;
 }
 
-@keyframes lm-aurora-drift-1 {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(120px, 160px) scale(1.08);
-  }
-  100% {
-    transform: translate(-40px, 80px) scale(0.94);
-  }
+/*
+ * 71 / 59 / 48 / 37s are co-prime on purpose. Equal or harmonically related
+ * durations re-sync visibly and the whole thing starts to read as a looping
+ * GIF; co-prime periods put the combined cycle in the hours, so the motion
+ * never repeats within a session. The two lights orbit in opposite
+ * directions on slightly different rectangles, so they meet and separate
+ * instead of tracking each other.
+ */
+.lm-aurora__light--a {
+  background-color: var(--route-light-a);
+  animation:
+    lm-aurora-orbit-a 71s ease-in-out infinite,
+    lm-aurora-breathe-a 59s ease-in-out infinite alternate;
 }
-@keyframes lm-aurora-drift-2 {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-150px, -120px) scale(0.94);
-  }
-  100% {
-    transform: translate(80px, -160px) scale(1.06);
-  }
+.lm-aurora__light--b {
+  background-color: var(--route-light-b);
+  animation:
+    lm-aurora-orbit-b 48s ease-in-out infinite,
+    lm-aurora-breathe-b 37s ease-in-out infinite alternate;
 }
-@keyframes lm-aurora-drift-3 {
+
+/* Clockwise, starting upper-left. Amplitudes keep the centre inside the
+ * window — roughly the 20%–80% band on both axes. */
+@keyframes lm-aurora-orbit-a {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(-30vw, -28vh);
+  }
+  25% {
+    transform: translate(30vw, -28vh);
   }
   50% {
-    transform: translate(110px, -110px) scale(1.12);
+    transform: translate(30vw, 28vh);
+  }
+  75% {
+    transform: translate(-30vw, 28vh);
   }
   100% {
-    transform: translate(-110px, 110px) scale(0.9);
+    transform: translate(-30vw, -28vh);
   }
 }
 
+/* Counter-clockwise, starting lower-right, on a slightly tighter rectangle. */
+@keyframes lm-aurora-orbit-b {
+  0% {
+    transform: translate(26vw, 24vh);
+  }
+  25% {
+    transform: translate(-26vw, 24vh);
+  }
+  50% {
+    transform: translate(-26vw, -24vh);
+  }
+  75% {
+    transform: translate(26vw, -24vh);
+  }
+  100% {
+    transform: translate(26vw, 24vh);
+  }
+}
+
+@keyframes lm-aurora-breathe-a {
+  from {
+    opacity: 0.78;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes lm-aurora-breathe-b {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+/*
+ * Freeze at a chosen pose rather than `animation: none`, which snaps to the
+ * 0% keyframe — for light B that is the lower-right corner at full strength,
+ * the least attractive still in the loop.
+ */
 @media (prefers-reduced-motion: reduce) {
-  .lm-aurora__blob {
+  .lm-aurora__light {
     animation: none;
+  }
+  .lm-aurora__light--a {
+    transform: translate(-26vw, -24vh);
+    opacity: 0.92;
+  }
+  .lm-aurora__light--b {
+    transform: translate(20vw, 18vh);
+    opacity: 0.65;
   }
 }

@@ -71,20 +71,12 @@
     rgba(255, 255, 255, 0) 100%
   );
 
-  /* Aurora background hues — light */
-  --aurora-1: #86efac;
-  --aurora-2: #fde68a;
-  --aurora-3: #15803d;
-  --aurora-opacity: 0.16;
-  --aurora-blur: 130px;
   /*
-   * How much of the route hue the background wash carries. Capped so body text
-   * over the brightest region of the glow stays above 4.5:1 — pushing this
-   * past ~38% on a mid-tone base drops white text under AA.
+   * The background surface is defined per route, not here: see routes.css for
+   * --route-base / --route-deep / --route-light-a / --route-light-b. The old
+   * additive-glow tokens (--aurora-1..3, --route-glow-strength and friends)
+   * are gone with the model that needed them.
    */
-  --route-glow-strength: 34%;
-  --route-glow-strength-far: 20%;
-  --route-sheen-strength: 7%;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
@@ -151,15 +143,7 @@
     rgba(255, 255, 255, 0) 100%
   );
 
-  --aurora-1: #86efac;
-  --aurora-2: #fde68a;
-  --aurora-3: #15803d;
-  --aurora-opacity: 0.14;
-  --aurora-blur: 130px;
-  /* How much of the route hue the background wash carries. */
-  --route-glow-strength: 48%;
-  --route-glow-strength-far: 26%;
-  --route-sheen-strength: 55%;
+  /* Background surface: see routes.css. */
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);

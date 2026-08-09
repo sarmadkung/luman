@@ -133,13 +133,26 @@ describe.each(THEMES)('$name theme contrast', ({ name, tokens }) => {
 /* ==================================================================
  * Route backgrounds.
  *
- * The rendered background is no longer --color-bg: it is the per-route
- * gradient from routes.css. Checking only --color-bg would leave the surface
- * that text actually sits on completely ungated, so every route base — and
- * the brightest point of its glow — is verified here too.
+ * The rendered background is not --color-bg: it is the per-route surface
+ * from routes.css, and that surface MOVES — two opaque lights orbit a static
+ * base sheet. Checking one sampled point would gate a single frame of an
+ * animation, so every value the surface can resolve to is checked instead.
+ *
+ * That enumeration is only sound because the lights are opaque and composite
+ * with plain alpha: overlapping two opaque fills yields the top fill, never
+ * something brighter. So the reachable set is exactly the four declared
+ * colours, and testing all four bounds every frame of the loop. If Aurora.css
+ * ever gains a `mix-blend-mode`, this reasoning breaks and the gate with it.
  * ================================================================== */
 
 const routesCss = readFileSync(fileURLToPath(new NodeURL('./routes.css', import.meta.url)), 'utf8');
+
+const SURFACE_TOKENS = [
+  '--route-base',
+  '--route-deep',
+  '--route-light-a',
+  '--route-light-b',
+] as const;
 
 /** Every `[data-route='x']` block under the given theme prefix. */
 function routeBlocks(
@@ -156,18 +169,6 @@ function routeBlocks(
   return out;
 }
 
-/** Replicates CSS `color-mix(in srgb, top pct%, transparent)` over `base`. */
-function mix(top: string, pct: number, base: string): Rgb {
-  const t = parseColor(top);
-  const b = parseColor(base);
-  return {
-    r: t.r * pct + b.r * (1 - pct),
-    g: t.g * pct + b.g * (1 - pct),
-    b: t.b * pct + b.b * (1 - pct),
-    a: 1,
-  };
-}
-
 function contrastRgb(fg: Rgb, bg: Rgb): number {
   const a = luminance(over(fg, bg));
   const b = luminance(bg);
@@ -175,26 +176,51 @@ function contrastRgb(fg: Rgb, bg: Rgb): number {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-const DARK_ROUTES = routeBlocks("[data-theme='dark']");
-const DARK_TOKENS = tokensOf(blockFor("[data-theme='dark']"));
-const DARK_GLOW_PCT = 0.34; // --route-glow-strength for dark, from tokens.css
+const ROUTE_THEMES = [
+  {
+    name: 'dark',
+    routes: routeBlocks("[data-theme='dark']"),
+    text: tokensOf(blockFor("[data-theme='dark']"))['--color-text']!,
+  },
+  {
+    name: 'light',
+    routes: routeBlocks(":root:not([data-theme='dark'])"),
+    text: tokensOf(blockFor(':root,'))['--color-text']!,
+  },
+];
 
-describe('dark route backgrounds', () => {
+describe.each(ROUTE_THEMES)('$name route backgrounds', ({ routes, text }) => {
   it('defines a block for every destination', () => {
-    expect(DARK_ROUTES.length).toBeGreaterThanOrEqual(9);
+    expect(routes.length).toBeGreaterThanOrEqual(9);
   });
 
-  it.each(DARK_ROUTES)('$route: body text on the route base meets AA', ({ tokens }) => {
-    const ratio = contrastRgb(
-      parseColor(DARK_TOKENS['--color-text']!),
-      parseColor(tokens['--route-base']!),
-    );
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
+  it.each(routes)('$route: declares the full surface palette', ({ tokens }) => {
+    for (const token of SURFACE_TOKENS) expect(tokens[token]).toBeDefined();
   });
 
-  it.each(DARK_ROUTES)('$route: body text survives the brightest glow', ({ tokens }) => {
-    const lit = mix(tokens['--route-glow']!, DARK_GLOW_PCT, tokens['--route-base']!);
-    const ratio = contrastRgb(parseColor(DARK_TOKENS['--color-text']!), lit);
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
+  it.each(routes)('$route: body text meets AA against every reachable value', ({ tokens }) => {
+    for (const token of SURFACE_TOKENS) {
+      const ratio = contrastRgb(parseColor(text), parseColor(tokens[token]!));
+      expect(ratio, `${token} = ${tokens[token]}`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+});
+
+/*
+ * The two lights are generated at equal relative luminance, so as they orbit
+ * past each other the surface changes hue without pulsing in brightness.
+ *
+ * The 10% tolerance is sized to the failure this catches, not to the current
+ * data: hand-editing one light instead of regenerating the palette. The bug
+ * that motivated it — rotating hue at fixed HLS lightness, which sent
+ * developer-center's warm tint to #2e87a3 — was a 36% luminance jump. Rounding
+ * to 8-bit alone costs up to ~3% on the darkest routes, where one channel step
+ * is proportionally large, so anything tighter would fail on arithmetic noise.
+ */
+describe.each(ROUTE_THEMES)('$name route light pairs', ({ routes }) => {
+  it.each(routes)('$route: both lights carry matching luminance', ({ tokens }) => {
+    const a = luminance(parseColor(tokens['--route-light-a']!));
+    const b = luminance(parseColor(tokens['--route-light-b']!));
+    expect(Math.abs(a - b) / Math.max(a, b)).toBeLessThan(0.1);
   });
 });
