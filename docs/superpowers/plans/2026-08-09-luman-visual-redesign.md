@@ -736,9 +736,13 @@ In `packages/ui/src/components/DashboardCard.css`, replace the `.lm-dcard` rule 
   box-shadow: var(--glass-surface-shadow);
   -webkit-backdrop-filter: saturate(140%) blur(var(--glass-blur));
   backdrop-filter: saturate(140%) blur(var(--glass-blur));
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 ```
+
+The `display: flex; flex-direction: column; min-width: 0;` declarations are pre-existing layout that must be **preserved** — only the four appearance declarations change. Unlike `.lm-card`, `.lm-dcard` has never had `overflow: hidden`; do not add it.
 
 In `packages/ui/src/components/Panel.css`, replace the `background` and `border` declarations of the `.lm-panel` rule with:
 
