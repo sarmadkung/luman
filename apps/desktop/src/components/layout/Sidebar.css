@@ -101,8 +101,9 @@
     var(--glass-surface-shadow);
   color: var(--color-text);
   font-weight: var(--font-weight-semibold);
-  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
-  backdrop-filter: saturate(160%) blur(var(--glass-blur));
+  -webkit-backdrop-filter: saturate(var(--glass-saturate));
+
+  backdrop-filter: saturate(var(--glass-saturate));
 }
 .lm-sidebar__footer {
   margin-top: auto;

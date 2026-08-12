@@ -228,10 +228,31 @@
   --opacity-muted: 0.7;
   --opacity-hover-overlay: 0.06;
 
-  /* Glass */
+  /*
+   * Glass.
+   *
+   * Blur is for surfaces that OVERLAY content — dialogs, popovers, toasts,
+   * the loading overlay. Those are transient, and there is real detail behind
+   * them to soften.
+   *
+   * In-flow surfaces (cards, the sidebar's active pill, the header search)
+   * take --glass-saturate ALONE, no blur. The shell is a flex layout with no
+   * overlap, so the only thing behind them is the aurora — a smooth gradient
+   * with no high-frequency detail, where blurring is close to an identity
+   * operation. It looked the same and cost a full-screen convolution per
+   * surface per frame, which the animated background now pays continuously.
+   * Saturation is the part that is actually visible, and it is a per-pixel
+   * matrix rather than a convolution.
+   *
+   * Adding blur back to an in-flow surface reintroduces that cost. If one
+   * ever genuinely overlaps scrolling content, it stops being in-flow and the
+   * blur is warranted — but check that it really does.
+   */
   --glass-blur: 30px;
   --glass-blur-strong: 44px;
   --glass-blur-chrome: 64px;
+  --glass-saturate: 160%;
+  --glass-saturate-strong: 180%;
 
   /* Z-index scale */
   --z-base: 0;
