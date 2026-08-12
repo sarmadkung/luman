@@ -3,7 +3,7 @@
  *
  * These are pure data models and enums only. There is deliberately **no**
  * behavior here: business rules live in the application/domain services
- * (packages/core), not on the models. See docs-ai/ARCHITECTURE.md.
+ * (packages/core), not on the models. See docs/ARCHITECTURE.md.
  */
 export * from './models/scan';
 export * from './models/finding';

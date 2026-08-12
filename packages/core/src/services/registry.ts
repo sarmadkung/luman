@@ -16,8 +16,8 @@ import { ConsoleLogger } from '../logging';
 /**
  * The set of services the UI depends on. Wiring lives behind this one object so
  * pages never construct concrete implementations themselves — they consume the
- * interfaces. Sprint 2 supplies mock implementations behind these same
- * contracts; Sprint 3 swaps in real adapters without touching the UI.
+ * interfaces. Sprint 03 supplies mock implementations behind these same
+ * contracts; Sprints 05-06 swap in real adapters without touching the UI.
  */
 export interface Services {
   readonly logger: Logger;

@@ -75,7 +75,7 @@ blocks. Otherwise work in ID order.
 
 ```yaml
 id: INF-001
-status: TODO
+status: DONE
 priority: P0
 depends_on: []
 ```

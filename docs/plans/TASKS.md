@@ -20,7 +20,7 @@ None
 
 ## Next Available
 
-- [ ] INF-001 — Project structure audit
+- [ ] INF-002 — Core domain types
 
 ## Blocked
 
@@ -34,12 +34,12 @@ None
 
 ## Sprint 04 Ledger
 
-All fifteen tasks, mirroring the sprint file. Only INF-001 is available; the rest
-are gated by dependencies.
+All fifteen tasks, mirroring the sprint file. INF-001 is `DONE`; INF-002 is the
+next available task, and the rest are gated by dependencies.
 
 | ID      | Task                                 | Status | Depends on                |
 | ------- | ------------------------------------ | ------ | ------------------------- |
-| INF-001 | Project structure audit               | TODO   | none                      |
+| INF-001 | Project structure audit               | DONE   | none                      |
 | INF-002 | Core domain types                     | TODO   | INF-001                   |
 | INF-003 | Service interfaces                    | TODO   | INF-002                   |
 | INF-004 | Filesystem abstraction                | TODO   | INF-003                   |
