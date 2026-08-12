@@ -180,7 +180,9 @@ data in `@luman/domain`.
     cannot read.
   - `ExecutionMode` (`'dry-run' | 'preview' | 'execute'`).
   - `PathClassification` (`'safe' | 'caution' | 'protected'`) and the
-    protected-path list from `docs/05_BUSINESS_RULES.md` as **data**, not logic.
+    protected-path list from `docs/05_BUSINESS_RULES.md` §Protected paths as
+    **data**, not logic. That table is the canonical list — eleven patterns.
+    Transcribe it; do not invent entries or drop any.
 - Reuse `Id` from `@luman/shared`. Add branded aliases via `Brand` where ids
   could be confused: `ScanId`, `FindingId`, `VolumeId`.
 - Extend existing unions (`ScanStatus`, `FindingCategory`, `SafetyLevel`) only if
@@ -194,9 +196,15 @@ data in `@luman/domain`.
 - `health.ts` is the precedent for a pure function living in domain, and for the
   comment explaining why domain does not import from core. Mirror that reasoning
   if you add a helper.
-- Protected paths are macOS-shaped: home root, Desktop, Documents, Downloads,
-  Pictures, Movies, Music, `Library`, and system folders. Store them as relative
-  patterns, not absolute paths — absolute paths would embed a username.
+- Protected paths are macOS-shaped and enumerated in `docs/05_BUSINESS_RULES.md`
+  §Protected paths. Store them as relative patterns, not absolute paths —
+  absolute paths would embed a username.
+- `PathClassification` and the existing `SafetyLevel` in `models/finding.ts` are
+  deliberately **distinct** despite sharing `'safe'` and `'caution'`.
+  `SafetyLevel` classifies a *finding*; `PathClassification` classifies a
+  *location*. Put a doc comment saying exactly that at both definition sites —
+  they are easy to conflate, and `findings.safety` is a real database column
+  that INF-010 maps.
 - `fraction` exists because a scan cannot know its total up front. Model unknown
   as `null`, never as `0`, or the UI will render a stalled progress bar.
 - Do not touch `computeHealthScore` or any existing model.
@@ -423,8 +431,14 @@ default, mapped onto the `StorageOverview` shape the dashboard already consumes.
   and free space. **Read-only. No traversal. No file enumeration.** Capacity
   statistics only.
 - Gate the real path behind `LUMAN_REAL_VOLUMES`, default off. Flag off →
-  `VolumeService` resolves from the mock (INF-013). Read the flag once at
-  construction; never toggle at runtime.
+  `VolumeService` resolves from the mock (INF-013).
+- **Read the flag in Rust**, via `std::env::var`, once at command entry. Do not
+  read it from TypeScript: `apps/desktop/vite.config.ts` sets no `envPrefix`, so
+  Vite exposes only `VITE_`-prefixed vars on `import.meta.env`, and `process.env`
+  does not exist in the renderer bundle. A bare `LUMAN_REAL_VOLUMES` read from TS
+  is always `undefined`, which would make the flag impossible to switch on and
+  the manual test below impossible to pass. With the flag off the command returns
+  an error and the TypeScript side falls back to the mock.
 - Map real figures onto the existing `StorageOverview` in
   `packages/core/src/services/types.ts`. Do not invent a parallel type.
   `reclaimableBytes` stays `0` until Sprint 05 supplies scan data.
@@ -442,9 +456,11 @@ default, mapped onto the `StorageOverview` shape the dashboard already consumes.
 - Keep the raw→`StorageOverview` conversion a **pure function** in TypeScript so
   it is unit-testable without the native bridge. The Tauri command returns raw
   numbers; the mapping lives in `@luman/core`.
-- Rust side: `std::fs` metadata does not give volume capacity. Use a maintained
-  crate (e.g. `sysinfo`) or the `statfs` syscall. Adding a crate is a dependency
-  change — **ask first** (`AGENTS.md` §16.11).
+- Rust side: `std::fs` metadata does not give volume capacity. **The developer
+  has approved adding the `sysinfo` crate for this** (2026-08-12), so
+  `AGENTS.md` §16.11 is already satisfied for `sysinfo` and only `sysinfo` — any
+  further crate still needs asking. Use `sysinfo::Disks` for total and available
+  space; it handles APFS containers more sanely than a raw `statfs`.
 - `isTauri()` already exists in `apps/desktop/src/database` — reuse that pattern
   for environment detection rather than sniffing `window` again.
 - Guard against `freeBytes > totalBytes` (seen with APFS containers and
@@ -514,7 +530,9 @@ without ever triggering a macOS permission prompt in this sprint.
   readable. Constraints: **one** probe, read-only, no enumeration of contents,
   no recursion, result cached for the process lifetime.
 - Gate the real probe behind `LUMAN_REAL_PERMISSIONS`, default off. Flag off →
-  mock status from INF-013.
+  mock status from INF-013. **Read the flag in Rust** via `std::env::var`, for
+  the reason given in INF-005 — a bare env var is not visible to renderer
+  TypeScript, so a TS-side read makes the flag permanently off.
 - **Do not trigger the Full Disk Access prompt.** A prompt is a real-machine
   side effect and a UX decision belonging to Sprint 05.
 - Denied and not-determined are normal outcomes: return the status, do not throw.
@@ -911,16 +929,24 @@ incapable of leaking a username or a protected path.
 - Extend the existing `Logger` / `ConsoleLogger` in
   `packages/core/src/logging/` rather than replacing them. Keep `child()`
   binding behavior.
-- Add level filtering using the existing `LOG_LEVEL_ORDER`, configurable at
-  construction, defaulting to `info` in production and `debug` in development.
+- Level filtering already exists — `ConsoleLogger` takes a `minLevel` option and
+  short-circuits on `LOG_LEVEL_ORDER`. Do **not** rebuild it. The actual defect
+  is the default: the doc comment promises "`debug` in dev, `info` otherwise" but
+  the code is an unconditional `options.minLevel ?? 'debug'`. Make the code match
+  the comment, using `import.meta.env.DEV` as `apps/desktop/src/error/logger.ts`
+  already does.
 - Add **redaction**: absolute paths under the user's home reduce to a stable
   non-identifying form (e.g. `~/…/<basename>`), and the macOS username never
   appears. Redaction is a pure function with its own tests.
 - Add a bounded in-memory ring buffer so the error dialog and future diagnostics
   can show recent entries without a file sink. Document the size.
 - A file sink or `tauri-plugin-log` wiring writes outside the repository. If
-  implemented, flag-gate it (default off) and leave the task
-  `NEEDS_MANUAL_TEST`. Do not enable or run it.
+  implemented, gate it behind `LUMAN_LOG_FILE_SINK` (default off, read in Rust
+  like the other flags) and leave the task `NEEDS_MANUAL_TEST`. Do not enable or
+  run it.
+- Record `LUMAN_REAL_VOLUMES`, `LUMAN_REAL_PERMISSIONS`, and
+  `LUMAN_LOG_FILE_SINK` in `docs/CONVENTIONS.md` as the single place every
+  real-machine flag is listed. INF-015 audits against that list.
 - Logging must never throw. A failing sink is swallowed after one warning.
 - Never log a `Finding` wholesale, a protected path, or a settings row's
   contents.
@@ -961,7 +987,7 @@ pnpm test:unit    # Tier 2
 
 ### Manual verification (Tier 3 — only if a file sink was implemented)
 
-1. Enable the log-sink flag
+1. `export LUMAN_LOG_FILE_SINK=1`
 2. `pnpm tauri:dev`, exercise the app briefly
 3. Open the log file in the app data directory
 
@@ -1329,7 +1355,7 @@ The agent never executes these. It writes the code, marks the task
 | ------- | ------------------------------------------------------------------ | ------------------------------------------------- |
 | INF-005 | Real volume capacity matches Disk Utility                           | `LUMAN_REAL_VOLUMES=1 pnpm tauri:dev`             |
 | INF-006 | Permission status matches System Settings, granted **and** denied   | `LUMAN_REAL_PERMISSIONS=1 pnpm tauri:dev`         |
-| INF-011 | Log file has no username or real protected paths                    | Enable the sink flag, inspect the file            |
+| INF-011 | Log file has no username or real protected paths                    | `LUMAN_LOG_FILE_SINK=1 pnpm tauri:dev`, inspect the file |
 | INF-014 | Native app launches; every route renders unchanged                   | `pnpm tauri:dev`                                  |
 | INF-015 | Full native build succeeds                                          | `pnpm tauri:build`                                |
 | INF-015 | No unexpected disk activity during a flagged-on session             | Watch Activity Monitor while exercising the app   |
