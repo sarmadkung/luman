@@ -4,7 +4,7 @@
 sprint: 04
 name: Core Infrastructure
 phase: 2 — Core Platform
-status: TODO
+status: IN_PROGRESS
 tasks: 15
 ```
 

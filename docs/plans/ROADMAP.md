@@ -63,7 +63,7 @@ any user-visible capability.
 
 ## Sprint 04 — Core Infrastructure
 
-Status: TODO
+Status: IN_PROGRESS
 
 Goal:
 Build the safe, read-only infrastructure required by all Luman features.
