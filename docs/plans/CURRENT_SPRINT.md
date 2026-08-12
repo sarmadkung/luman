@@ -6,7 +6,7 @@ Sprint 04 — Core Infrastructure
 
 ## Status
 
-TODO
+ACTIVE
 
 ## Objective
 
@@ -28,6 +28,5 @@ See:
 
 `docs/plans/sprints/004-core-infrastructure.md`
 
-> **Not yet written.** Until that file exists, the agent loop must halt here per
-> `AGENTS.md` §16.1 — no improvised sprint, no work pulled from
-> `docs/plans/ROADMAP.md`.
+That file holds the fifteen tasks and is authoritative for each task's status.
+`docs/plans/TASKS.md` mirrors it and records where the agent is right now.
