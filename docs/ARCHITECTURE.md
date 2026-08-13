@@ -32,6 +32,29 @@ ScanRequested -> ScanCompleted -> ResultsAvailable -> CleanupRequested -> Cleanu
 
 Sprint 1 wires the seams only; no events fire yet.
 
+## The filesystem port (INF-004)
+
+`packages/core/src/fs/`. The sprint's central safety guarantee: **a scanner
+cannot delete because deletion is not expressible.**
+
+`FileSystem` has exactly four methods — `stat`, `readDirectory`, `exists`,
+`realPath` — pinned by the exported `FILE_SYSTEM_METHODS` allow-list and
+asserted in `file-system-port.test.ts`. Widening the port fails a test rather
+than passing review. `InMemoryFileSystem` is the only implementation; the real
+adapter is INF-005's flag-gated Tauri command.
+
+`PathGuard` is the single gate every path passes through. A path is admitted
+only if it is absolute, its *lexical* normalisation is inside an allowed root
+and unprotected, and its *symlink-resolved real* path is too. Both checks are
+required: the lexical one rejects cheaply before any I/O, the real one is what
+actually counts — a link inside `~/projects` pointing at `~/Documents` looks
+innocent until resolved. Refusals are always `Err(AppError)` with
+`PATH_NOT_ALLOWED`, never a throw, so a caller cannot mistake an exception for
+permission. Protected beats allowed, and an empty `allowedRoots` admits nothing.
+
+Traversal is iterative with a visited-set and a depth bound, so symlink cycles
+and deep trees terminate instead of hanging or exhausting the stack.
+
 ## Service contracts (INF-003)
 
 All declared in `packages/core/src/services/` and wired into `Services` by

@@ -7,6 +7,7 @@
  */
 export * from './errors';
 export * from './logging';
+export * from './fs';
 export * from './services';
 export * from './database';
 export * from './plugins';
