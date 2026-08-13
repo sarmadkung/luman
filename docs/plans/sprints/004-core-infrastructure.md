@@ -413,7 +413,7 @@ pnpm test:unit    # Tier 2 — against InMemoryFileSystem only
 
 ```yaml
 id: INF-005
-status: TODO
+status: NEEDS_MANUAL_TEST
 priority: P0
 depends_on: [INF-004]
 ```

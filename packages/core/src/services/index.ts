@@ -5,6 +5,7 @@ export * from './storage-service';
 export * from './recommendation-service';
 export * from './history-service';
 export * from './volume-service';
+export * from './volume-mapping';
 export * from './permission-service';
 export * from './scan-engine';
 export * from './event-bus';

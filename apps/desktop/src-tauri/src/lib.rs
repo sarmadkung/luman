@@ -1,5 +1,7 @@
 use tauri_plugin_sql::{Migration, MigrationKind};
 
+mod volumes;
+
 /// Registers the SQLite migrations. Migration 0001 creates the five empty
 /// foundation tables. The SQL is the single source of truth shared with the
 /// frontend schema-validation test.
@@ -21,6 +23,7 @@ pub fn run() {
                 .add_migrations("sqlite:luman.db", migrations())
                 .build(),
         )
+        .invoke_handler(tauri::generate_handler![volumes::list_volumes])
         .run(tauri::generate_context!())
         .expect("error while running Luman");
 }

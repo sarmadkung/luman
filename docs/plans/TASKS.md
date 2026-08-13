@@ -20,16 +20,15 @@ None
 
 ## Next Available
 
-- [ ] INF-005 — Storage/volume service (needs a dependency decision — see note)
 - [ ] INF-006 — Permission service
 - [ ] INF-009 — Event system
 - [ ] INF-010 — Persistence layer
 - [ ] INF-011 — Logging
 - [ ] INF-012 — Safety boundary
 
-INF-005 needs volume capacity, which `std::fs` does not expose. It requires
-either the `sysinfo` crate or a raw `statfs` call — a dependency change, which
-is the developer's call (`AGENTS.md` §16.11). Expect the agent to stop and ask.
+INF-013 depends on INF-005, which is awaiting a manual test. It is not blocked
+on the *code* — INF-005's fallback path is complete and tested — but its status
+must clear before INF-013 starts (`AGENTS.md` §8).
 
 ## Blocked
 
