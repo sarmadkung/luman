@@ -182,7 +182,9 @@ is Tier 2 even though most of it is Tier 1.
   Library, caches, or system folders
 - Emptying Trash; uninstalling applications
 - Anything requiring `sudo` or elevated privileges
-- `git push`, `gh pr create`, or any network-mutating command
+- `git push --force` (any form), pushing to `main`, or any other
+  network-mutating command. Pushing a **task branch** and opening a PR are
+  allowed — see Section 14.1
 - Installing global tooling, or changing the developer's shell/system config
 
 You may **write** the code for every one of these. You may never **execute** it.
@@ -449,7 +451,7 @@ Rules:
 
 ## 14. Git and commit rules
 
-**Branching: one branch per task. Never push.**
+**Branching: one branch per task. Push task branches only, never `main`.**
 
 ```bash
 git switch main
@@ -465,12 +467,51 @@ git commit -m "…"
   commits if each is coherent.
 - `git add <paths>`, never `git add -A` or `git add .` — the working tree may
   contain the developer's own changes.
-- **Never** `git push`, open a PR, force-push, rebase shared history, amend a
-  commit that is not yours, `git reset --hard`, or `git clean`. The developer
-  reviews and merges.
-- Never commit to `main` directly.
+- **Never** force-push, push to `main`, rebase shared history, amend a commit
+  that is not yours, `git reset --hard`, or `git clean`.
+- Never commit to `main` directly. Work reaches `main` by merging a task
+  branch — see Section 14.1.
 - Never commit secrets, `.env` files, build output, screenshots, or
   `node_modules`. If `.gitignore` needs updating, that is its own change.
+
+### 14.1 One PR per feature or sprint — and clear the old ones first
+
+When the developer asks for a **new feature** or a **new sprint**, that work gets
+its own pull request. Never continue a feature on a PR that was opened for
+different work, and never let two features share one branch.
+
+**Granularity.** The unit is still one task per branch (Section 14), so inside a
+sprint each task is its own PR. "One PR per feature or sprint" is about what may
+*not* be combined: two features never share a PR, and work from two sprints never
+shares a PR. It does not license batching a whole sprint into one branch — that
+would collide with the one-task-per-cycle rule in Section 3.
+
+**Before opening a new PR, merge the outstanding ones.** Starting new work on top
+of unmerged work is how this repo gets a pile of branches that each need the
+others to make sense.
+
+```bash
+gh pr list                       # what is still open?
+# for each open PR that is green and approved:
+gh pr merge <n> --squash --delete-branch
+git switch main && git pull      # take the merges
+git switch -c feat/<TASK-ID>-<slug>
+```
+
+Rules:
+
+- **Merge only what is ready** — CI green, review resolved, no requested changes
+  outstanding. A PR that is not ready is a reason to **stop and ask**, not a
+  reason to merge it anyway or to branch off it.
+- If an open PR conflicts with `main`, resolve the conflict on **that PR's**
+  branch and merge it before starting anything new.
+- One exception to merge-first: the new work genuinely depends on an unmerged
+  PR's code. Then stack the branch on that PR, say so explicitly in the new PR's
+  description, and merge in order. Do not stack silently.
+- You may push task branches and run `gh pr create`. You may **not** push to
+  `main`, force-push anything, or merge a PR the developer has asked to hold.
+- PR title uses the commit format: `<type>(<scope>): <summary>`. The body states
+  the task ID, what changed, and exactly what verification ran.
 
 ### Commit message format
 
@@ -621,7 +662,8 @@ A task is `DONE` only when all of these hold:
 - [ ] No new safety-rule exceptions; no auto-execute path introduced
 - [ ] Affected docs updated in the same commit
 - [ ] Status updated in the sprint file
-- [ ] Committed on its own branch, not pushed
+- [ ] Committed on its own branch and pushed; PR open if the work is a feature
+      or a sprint (Section 14.1)
 - [ ] Scope clean: nothing unrelated in the diff
 
 If any box is unchecked, the task is not `DONE`. Say which box, and why.
