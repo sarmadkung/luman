@@ -20,7 +20,10 @@ None
 
 ## Next Available
 
-- [ ] INF-003 — Service interfaces
+- [ ] INF-004 — Filesystem abstraction
+- [ ] INF-009 — Event system (independent of INF-004)
+- [ ] INF-010 — Persistence layer (independent of INF-004)
+- [ ] INF-011 — Logging
 
 ## Blocked
 
@@ -34,14 +37,16 @@ None
 
 ## Sprint 04 Ledger
 
-All fifteen tasks, mirroring the sprint file. INF-001 and INF-002 are `DONE`;
-INF-003 is the next available task, and the rest are gated by dependencies.
+All fifteen tasks, mirroring the sprint file. INF-001 through INF-003 are
+`DONE`. Completing INF-003 newly unblocked INF-004, INF-006, and INF-011;
+INF-009 and INF-010 depend only on INF-002 and were already eligible. Take them
+in ID order unless INF-004 blocks.
 
 | ID      | Task                                 | Status | Depends on                |
 | ------- | ------------------------------------ | ------ | ------------------------- |
 | INF-001 | Project structure audit               | DONE   | none                      |
 | INF-002 | Core domain types                     | DONE   | INF-001                   |
-| INF-003 | Service interfaces                    | TODO   | INF-002                   |
+| INF-003 | Service interfaces                    | DONE   | INF-002                   |
 | INF-004 | Filesystem abstraction                | TODO   | INF-003                   |
 | INF-005 | Storage/volume service                | TODO   | INF-004                   |
 | INF-006 | Permission service                    | TODO   | INF-003                   |
