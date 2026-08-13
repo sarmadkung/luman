@@ -154,7 +154,7 @@ behavioral changed) and **do not** run any `tauri:*` command.
 
 ```yaml
 id: INF-002
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-001]
 ```
