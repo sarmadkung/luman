@@ -1,6 +1,6 @@
 .lm-button {
   appearance: none;
-  border: 1px solid transparent;
+  border: var(--border-width) solid transparent;
   border-radius: var(--radius-sm);
   padding: var(--space-2) var(--space-4);
   font: inherit;

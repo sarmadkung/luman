@@ -90,15 +90,18 @@
 }
 /*
  * The active pill is the reference's signature: a soft translucent slab with a
- * hairline edge and a light catch along its top, not a saturated accent block.
+ * hairline edge, not a saturated accent block.
+ *
+ * No `inset 0 1px 0` light catch here. Stacked inside the 1px border it painted
+ * a second bright line along the top edge only, so the pill read as having a
+ * heavier top border than its other three sides. The sheen gradient already
+ * supplies the lit-from-above impression without breaking the hairline.
  */
 .lm-sidebar__link--active {
   background-color: var(--glass-surface-bg);
   background-image: var(--glass-sheen);
   border-color: var(--glass-surface-border);
-  box-shadow:
-    inset 0 1px 0 var(--glass-highlight),
-    var(--glass-surface-shadow);
+  box-shadow: var(--glass-surface-shadow);
   color: var(--color-text);
   font-weight: var(--font-weight-semibold);
   -webkit-backdrop-filter: saturate(var(--glass-saturate));
