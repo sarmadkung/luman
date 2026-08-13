@@ -5,8 +5,9 @@ import { ErrorState } from './ErrorState';
 
 /**
  * Every screen must define Loading, Empty, Error and Success states, plus a
- * Permission-Required state where access is involved (Design Spec + Sprint 2
- * Epic 7). `StateView` makes satisfying that contract consistent.
+ * Permission-Required state where access is involved (`docs/03_DESIGN_SPEC.md`,
+ * delivered in Sprint 03). `StateView` makes satisfying that contract
+ * consistent.
  */
 export type ViewStatus = 'loading' | 'empty' | 'permission' | 'error' | 'success';
 

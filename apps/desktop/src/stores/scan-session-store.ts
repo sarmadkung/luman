@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-/** Transient state for an in-flight scan. Populated by Sprint 2; empty now. */
+/** Transient state for an in-flight scan. Populated by Sprint 05; empty now. */
 export type ScanSessionStatus = 'idle' | 'scanning' | 'completed' | 'error';
 
 export interface ScanSessionState {
