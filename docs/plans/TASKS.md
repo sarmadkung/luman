@@ -20,10 +20,16 @@ None
 
 ## Next Available
 
-- [ ] INF-004 — Filesystem abstraction
-- [ ] INF-009 — Event system (independent of INF-004)
-- [ ] INF-010 — Persistence layer (independent of INF-004)
+- [ ] INF-005 — Storage/volume service (needs a dependency decision — see note)
+- [ ] INF-006 — Permission service
+- [ ] INF-009 — Event system
+- [ ] INF-010 — Persistence layer
 - [ ] INF-011 — Logging
+- [ ] INF-012 — Safety boundary
+
+INF-005 needs volume capacity, which `std::fs` does not expose. It requires
+either the `sysinfo` crate or a raw `statfs` call — a dependency change, which
+is the developer's call (`AGENTS.md` §16.11). Expect the agent to stop and ask.
 
 ## Blocked
 
@@ -38,16 +44,16 @@ None
 ## Sprint 04 Ledger
 
 All fifteen tasks, mirroring the sprint file. INF-001 through INF-003 are
-`DONE`. Completing INF-003 newly unblocked INF-004, INF-006, and INF-011;
-INF-009 and INF-010 depend only on INF-002 and were already eligible. Take them
-in ID order unless INF-004 blocks.
+`DONE`. INF-004 delivered the filesystem port and PathGuard, unblocking INF-005
+and INF-012. INF-006, INF-009, INF-010, and INF-011 are also eligible; take them
+in ID order.
 
 | ID      | Task                                 | Status | Depends on                |
 | ------- | ------------------------------------ | ------ | ------------------------- |
 | INF-001 | Project structure audit               | DONE   | none                      |
 | INF-002 | Core domain types                     | DONE   | INF-001                   |
 | INF-003 | Service interfaces                    | DONE   | INF-002                   |
-| INF-004 | Filesystem abstraction                | TODO   | INF-003                   |
+| INF-004 | Filesystem abstraction                | DONE   | INF-003                   |
 | INF-005 | Storage/volume service                | TODO   | INF-004                   |
 | INF-006 | Permission service                    | TODO   | INF-003                   |
 | INF-007 | Scan engine foundation                | TODO   | INF-004, INF-009          |
