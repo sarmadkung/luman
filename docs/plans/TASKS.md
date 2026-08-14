@@ -20,7 +20,6 @@ None
 
 ## Next Available
 
-- [ ] INF-011 — Logging
 - [ ] INF-012 — Safety boundary
 
 INF-013 depends on INF-005, which is awaiting a manual test. It is not blocked
@@ -59,7 +58,7 @@ INF-009 unblocked INF-007. INF-010, INF-011, and INF-012 need nothing further.
 | INF-008 | Progress & cancellation               | TODO   | INF-007                   |
 | INF-009 | Event system                          | DONE   | INF-002                   |
 | INF-010 | Persistence layer                     | DONE   | INF-002                   |
-| INF-011 | Logging                               | TODO   | INF-003                   |
+| INF-011 | Logging                               | DONE   | INF-003                   |
 | INF-012 | Safety boundary                       | TODO   | INF-002, INF-004          |
 | INF-013 | Mock implementations                  | TODO   | INF-004, INF-005, INF-006 |
 | INF-014 | UI integration                        | TODO   | INF-010, INF-013          |
