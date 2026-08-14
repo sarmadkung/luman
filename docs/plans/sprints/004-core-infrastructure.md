@@ -512,7 +512,7 @@ Expected: figures match within rounding. If they do not, paste both numbers back
 
 ```yaml
 id: INF-006
-status: TODO
+status: NEEDS_MANUAL_TEST
 priority: P0
 depends_on: [INF-003]
 ```

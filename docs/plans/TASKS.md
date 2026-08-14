@@ -20,7 +20,6 @@ None
 
 ## Next Available
 
-- [ ] INF-006 — Permission service
 - [ ] INF-009 — Event system
 - [ ] INF-010 — Persistence layer
 - [ ] INF-011 — Logging

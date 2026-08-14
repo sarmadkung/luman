@@ -1,5 +1,6 @@
 use tauri_plugin_sql::{Migration, MigrationKind};
 
+mod permissions;
 mod volumes;
 
 /// Registers the SQLite migrations. Migration 0001 creates the five empty
@@ -23,7 +24,10 @@ pub fn run() {
                 .add_migrations("sqlite:luman.db", migrations())
                 .build(),
         )
-        .invoke_handler(tauri::generate_handler![volumes::list_volumes])
+        .invoke_handler(tauri::generate_handler![
+            volumes::list_volumes,
+            permissions::check_permission
+        ])
         .run(tauri::generate_context!())
         .expect("error while running Luman");
 }
