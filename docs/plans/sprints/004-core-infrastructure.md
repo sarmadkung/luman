@@ -914,7 +914,7 @@ pnpm test:integration    # Tier 2 — sql.js, in-memory
 
 ```yaml
 id: INF-011
-status: TODO
+status: DONE
 priority: P1
 depends_on: [INF-003]
 ```
