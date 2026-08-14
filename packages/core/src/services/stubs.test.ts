@@ -117,7 +117,7 @@ describe('StubScanEngine', () => {
 describe('StubEventBus', () => {
   it('drops published events instead of throwing', () => {
     const bus: EventBus = new StubEventBus();
-    expect(() => bus.publish('scan:started', { scanId: 's1' })).not.toThrow();
+    expect(() => bus.publish('ScanRequested', { scanId: 's1', roots: [] })).not.toThrow();
   });
 
   it('returns an unsubscribe that is safe to call twice', () => {
