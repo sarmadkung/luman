@@ -832,7 +832,7 @@ pnpm test:unit    # Tier 2
 
 ```yaml
 id: INF-010
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-002]
 ```

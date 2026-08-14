@@ -20,7 +20,6 @@ None
 
 ## Next Available
 
-- [ ] INF-010 — Persistence layer
 - [ ] INF-011 — Logging
 - [ ] INF-012 — Safety boundary
 
@@ -59,7 +58,7 @@ INF-009 unblocked INF-007. INF-010, INF-011, and INF-012 need nothing further.
 | INF-007 | Scan engine foundation                | TODO   | INF-004, INF-009          |
 | INF-008 | Progress & cancellation               | TODO   | INF-007                   |
 | INF-009 | Event system                          | DONE   | INF-002                   |
-| INF-010 | Persistence layer                     | TODO   | INF-002                   |
+| INF-010 | Persistence layer                     | DONE   | INF-002                   |
 | INF-011 | Logging                               | TODO   | INF-003                   |
 | INF-012 | Safety boundary                       | TODO   | INF-002, INF-004          |
 | INF-013 | Mock implementations                  | TODO   | INF-004, INF-005, INF-006 |
