@@ -1,13 +1,22 @@
 .lm-glass {
   border: var(--border-width) solid var(--glass-border);
 }
+/*
+ * Chrome backs the overlays — Dialog, Popover, Toast — which float above real
+ * content, so they blur. They are also transient, so the per-frame cost of
+ * that blur is only paid while one is open.
+ */
 .lm-glass--chrome {
   background: var(--glass-bg);
   border-color: var(--glass-border);
   box-shadow: var(--glass-shadow);
-  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur-chrome));
-  backdrop-filter: saturate(180%) blur(var(--glass-blur-chrome));
+  -webkit-backdrop-filter: saturate(var(--glass-saturate-strong)) blur(var(--glass-blur-chrome));
+  backdrop-filter: saturate(var(--glass-saturate-strong)) blur(var(--glass-blur-chrome));
 }
+/*
+ * Surface is the in-flow content variant: saturation only, no blur. See the
+ * glass section of tokens.css for why.
+ */
 .lm-glass--surface {
   background-color: var(--glass-surface-bg);
   background-image: var(--glass-sheen);
@@ -15,12 +24,12 @@
   box-shadow:
     inset 0 1px 0 var(--glass-highlight),
     var(--glass-surface-shadow);
-  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
-  backdrop-filter: saturate(160%) blur(var(--glass-blur));
+  -webkit-backdrop-filter: saturate(var(--glass-saturate));
+  backdrop-filter: saturate(var(--glass-saturate));
 }
 .lm-glass--strong {
-  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur-strong));
-  backdrop-filter: saturate(180%) blur(var(--glass-blur-strong));
+  -webkit-backdrop-filter: saturate(var(--glass-saturate-strong)) blur(var(--glass-blur-strong));
+  backdrop-filter: saturate(var(--glass-saturate-strong)) blur(var(--glass-blur-strong));
 }
 /* Graceful fallback where backdrop-filter is unsupported. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

@@ -189,13 +189,35 @@ so route changes cross-fade — a gradient fill would snap instead.
 Under `prefers-reduced-motion: reduce` the lights hold a chosen pose rather
 than `animation: none`, which snaps to the 0% keyframe.
 
-### Known cost
+### Blur and the moving backdrop
 
-The background now changes every frame, so every `backdrop-filter` surface
-above it — sidebar, header, status bar, each card — recomputes its blur
-continuously. This is the real performance exposure, not the aurora itself,
-and it has not been measured yet. If frame time becomes a problem, the levers
-are fewer live-blur regions or slower motion, in that order.
+A moving background makes every `backdrop-filter` above it recompute
+continuously — a far larger cost than the aurora itself, which only
+transforms two layers on the GPU.
+
+The resolution is that almost none of those surfaces needed blur. The shell is
+a flex layout with no overlap: the sidebar sits beside the main column, and
+the header and status bar sit above and below the scroll area rather than over
+it. So the only thing behind an in-flow glass surface is the aurora — a smooth
+gradient with no high-frequency detail, where blur is close to an identity
+operation. It was invisible and cost a full-screen convolution per surface per
+frame.
+
+In-flow surfaces (cards, the sidebar's active pill, the header search) now
+take `saturate(var(--glass-saturate))` alone. Saturation is the part that was
+actually doing visible work, and it is a per-pixel matrix rather than a
+convolution. Blur remains on the overlays — Dialog, Popover, Toast, the
+loading overlay — which do float above real content and are transient, so
+their cost is paid only while one is open.
+
+The practical effect is that in steady state nothing on screen runs a
+backdrop blur at all.
+
+This has been reasoned from the layout, not profiled. If frame time is still a
+problem, the next lever is quantising the orbit with `steps()` so the backdrop
+changes a handful of times per second instead of every frame — the lights are
+soft and slow enough that the stepping should not be visible, at the cost of
+the ease-in-out at the corners.
 
 ## Sources
 

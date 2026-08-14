@@ -12,7 +12,25 @@ export type ErrorCode =
   | 'PLUGIN_NOT_FOUND'
   | 'SCAN_FAILED'
   | 'CLEANUP_FAILED'
-  | 'CLEANUP_NOT_CONFIRMED';
+  | 'CLEANUP_NOT_CONFIRMED'
+  /** A scan stopped because it was cancelled. Not a failure — expected. */
+  | 'SCAN_CANCELLED'
+  /** A path fell outside what the filesystem guard allows (INF-004). */
+  | 'PATH_NOT_ALLOWED'
+  /** Nothing exists at the path. Distinct from being refused access to it. */
+  | 'PATH_NOT_FOUND'
+  /** Symlink resolution cycled or exceeded its depth bound (INF-004). */
+  | 'SYMLINK_LOOP'
+  /** The safety boundary refused an operation (INF-012). */
+  | 'UNSAFE_OPERATION_BLOCKED'
+  /** A volume could not be read — unmounted, ejected, or never present. */
+  | 'VOLUME_UNAVAILABLE'
+  /**
+   * The user has not yet granted access needed to continue. Distinct from
+   * `PERMISSION_DENIED`, which means access was asked for and refused: this one
+   * means asking is still worthwhile.
+   */
+  | 'PERMISSION_REQUIRED';
 
 export interface AppErrorOptions {
   readonly code?: ErrorCode;

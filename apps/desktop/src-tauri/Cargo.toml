@@ -19,6 +19,10 @@ tauri-plugin-sql = { version = "2", features = ["sqlite"] }
 tauri-plugin-log = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+# Volume capacity only (INF-005). std::fs gives no capacity figures, and
+# sysinfo handles APFS containers more sanely than a raw statfs.
+# Approved by the developer 2026-08-12 — AGENTS.md §16.11.
+sysinfo = { version = "0.32", default-features = false, features = ["disk"] }
 
 [features]
 # Bundle a webview into the final binary on Windows.

@@ -47,9 +47,10 @@
   border: var(--border-width) solid var(--glass-surface-border);
   background-color: var(--glass-surface-bg);
   background-image: var(--glass-sheen);
-  box-shadow: inset 0 1px 0 var(--glass-highlight);
-  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
-  backdrop-filter: saturate(160%) blur(var(--glass-blur));
+  /* No inset top highlight — see Sidebar.css: it doubles the top border. */
+  -webkit-backdrop-filter: saturate(var(--glass-saturate));
+
+  backdrop-filter: saturate(var(--glass-saturate));
   color: var(--color-text);
   font-size: var(--font-size-body);
   font-family: inherit;
