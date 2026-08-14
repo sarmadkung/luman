@@ -1009,7 +1009,7 @@ Expected: no username, no absolute protected path, entries level-filtered.
 
 ```yaml
 id: INF-012
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-002, INF-004]
 ```

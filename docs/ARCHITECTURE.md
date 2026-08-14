@@ -53,6 +53,46 @@ The union is `EventMap` in `packages/core/src/services/event-bus.ts`.
   and the publisher are unaffected. A scan reporting progress must not die
   because a widget threw.
 
+## The safety boundary (INF-012)
+
+`DefaultSafetyGate` in `packages/core/src/services/safety-gate.ts` — the single
+chokepoint every future destructive operation passes through. It **only
+answers**: it holds no capability to carry out what it approves, so no code path
+can execute merely by asking whether it may.
+
+Fail-closed rules:
+
+- An omitted mode is `dry-run`. Execute is never a default.
+- An unrecognised mode is refused. TypeScript makes one unreachable, but a value
+  arriving over IPC or read back from settings is not type-checked.
+- **One bad path fails the whole plan.** No partial execution — a mixed path
+  list is exactly how a cleanup tool deletes something it should not.
+- `execute` requires all of: `confirmedByUser: true` (a literal type, so
+  unconfirmed execution is *unrepresentable* rather than merely rejected), a
+  non-empty plan, every path admitted by `PathGuard`, and the execution flag on.
+  **With all four satisfied it still refuses** with `UNSAFE_OPERATION_BLOCKED`;
+  the branch exists so its preconditions are testable, and Sprint 07 owns the
+  implementation.
+- Every call is audited — mode, path count, outcome, reason, and **never a
+  path**, so the entry is safe to attach to a bug report.
+
+### Delete-shaped call audit
+
+`grep -rnE "\bunlink\b|remove_file|remove_dir|\btrash\b|\brename\b|rmdir|\.delete\("`
+over first-party source returns only:
+
+| Hit | Explanation |
+| --- | ----------- |
+| `file-system.ts`, `scan-engine.ts`, `volume-service.ts`, `volumes.rs`, `sqlite-repositories.ts` | Doc comments stating the method does **not** exist |
+| `file-system-port.test.ts`, `no-mutation.test.ts` | The tests' own lists of forbidden verbs |
+| `plugin-manager.ts`, `event-bus.ts`, `Toast.tsx` | `Map`/`Set.delete` on in-memory registries |
+| `finding.ts` | `'trash'` as a `FindingCategory` — a category name, not an action |
+| `mock-recommendation-service.ts` | The literal id string `'rec-trash'` |
+| `repositories.integration.test.ts` | `DELETE FROM scans` — a row in an in-memory sql.js table, verifying cascade |
+
+No first-party code reaches a real filesystem delete, because the filesystem
+port cannot express one.
+
 ## The filesystem port (INF-004)
 
 `packages/core/src/fs/`. The sprint's central safety guarantee: **a scanner

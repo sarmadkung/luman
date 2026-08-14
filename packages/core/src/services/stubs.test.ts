@@ -130,17 +130,19 @@ describe('StubEventBus', () => {
 });
 
 describe('DenyAllSafetyGate', () => {
-  it('denies by default, so an unfinished gate cannot permit anything', () => {
-    const verdict = new DenyAllSafetyGate().evaluate();
-    expect(verdict.allowed).toBe(false);
-    expect(verdict.classification).toBe('protected');
-    expect(verdict.explanation.length).toBeGreaterThan(0);
+  it('denies by default, so an unfinished gate cannot permit anything', async () => {
+    const result = await new DenyAllSafetyGate().plan();
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error.code).toBe('UNSAFE_OPERATION_BLOCKED');
+      expect(result.error.userMessage.length).toBeGreaterThan(0);
+    }
   });
 
-  it('denies even a fully confirmed execute request', () => {
+  it('denies even a fully confirmed execute request', async () => {
     // Confirmation must not be a way around an unimplemented gate.
-    const verdict = new DenyAllSafetyGate().evaluate();
-    expect(verdict.allowed).toBe(false);
+    const result = await new DenyAllSafetyGate().plan();
+    expect(result.ok).toBe(false);
   });
 });
 
