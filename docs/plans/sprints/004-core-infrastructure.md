@@ -597,7 +597,7 @@ prompt appears.
 
 ```yaml
 id: INF-007
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-004, INF-009]
 ```
