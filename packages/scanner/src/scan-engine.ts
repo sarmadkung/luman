@@ -1,4 +1,4 @@
-import type { Finding, Scan, SafetyLevel } from '@luman/domain';
+import type { Finding, Scan, SafetyLevel, ScanProgress } from '@luman/domain';
 import type { ScannerPlugin } from '@luman/plugin-sdk';
 import type {
   EventBus,
@@ -10,6 +10,7 @@ import type {
   Unsubscribe,
 } from '@luman/core';
 import { AppError } from '@luman/core';
+import { ProgressReporter } from './progress-reporter';
 
 /**
  * Severity order. **The most cautious value wins** on a dedup collision — a
@@ -45,6 +46,10 @@ export interface DefaultScanEngineOptions {
   /** Injected so ids and timestamps stay deterministic in tests. */
   readonly now?: () => string;
   readonly createId?: () => string;
+  /** Minimum gap between progress emissions. See PROGRESS_THROTTLE_MS. */
+  readonly progressThrottleMs?: number;
+  /** Monotonic clock for throttling. Injected so tests can drive it. */
+  readonly monotonic?: () => number;
 }
 
 const DEFAULT_TIMEOUT_MS = 30_000;
@@ -81,6 +86,8 @@ export class DefaultScanEngine implements ScanEngine {
   readonly #concurrency: number;
   readonly #now: () => string;
   readonly #createId: () => string;
+  readonly #progressThrottleMs: number | undefined;
+  readonly #monotonic: (() => number) | undefined;
   readonly #controllers = new Map<string, AbortController>();
 
   constructor(options: DefaultScanEngineOptions) {
@@ -92,6 +99,8 @@ export class DefaultScanEngine implements ScanEngine {
     this.#concurrency = Math.max(1, options.concurrency ?? DEFAULT_CONCURRENCY);
     this.#now = options.now ?? (() => new Date().toISOString());
     this.#createId = options.createId ?? (() => globalThis.crypto.randomUUID());
+    this.#progressThrottleMs = options.progressThrottleMs;
+    this.#monotonic = options.monotonic;
   }
 
   async run(request: ScanRequest = {}): Promise<ScanRunHandle> {
@@ -126,12 +135,18 @@ export class DefaultScanEngine implements ScanEngine {
     this.#controllers.get(scanId)?.abort();
   }
 
-  subscribeProgress(): Unsubscribe {
-    // Progress reporting is INF-008; the engine emits ScanProgressed via the
-    // bus, and this hands back a working unsubscribe in the meantime.
-    return () => {
-      // Nothing registered here.
-    };
+  /**
+   * Observe one scan's progress.
+   *
+   * A thin filter over the bus rather than a second delivery mechanism — one
+   * source of truth for progress means the UI and any other subscriber cannot
+   * disagree. Subscribing to an unknown or finished scan is not an error; the
+   * listener is simply never called.
+   */
+  subscribeProgress(scanId: string, listener: (progress: ScanProgress) => void): Unsubscribe {
+    return this.#events.subscribe('ScanProgressed', (payload) => {
+      if (payload.scanId === scanId) listener(payload.progress);
+    });
   }
 
   /** The full outcome, for callers that need findings rather than just a Scan. */
@@ -141,6 +156,11 @@ export class DefaultScanEngine implements ScanEngine {
     const outcome = this.#outcomes.get(handle.scanId);
     if (outcome === undefined) throw new AppError('Scan outcome missing', { code: 'SCAN_FAILED' });
     return outcome;
+  }
+
+  /** The recorded outcome for a settled scan, or undefined if still running. */
+  outcomeOf(scanId: string): ScanOutcome | undefined {
+    return this.#outcomes.get(scanId);
   }
 
   readonly #outcomes = new Map<string, ScanOutcome>();
@@ -160,13 +180,31 @@ export class DefaultScanEngine implements ScanEngine {
     const collected: Finding[] = [];
     const failures: PluginFailure[] = [];
 
+    const progress = new ProgressReporter({
+      emit: (snapshot) => {
+        this.#events.publish('ScanProgressed', { scanId: scan.id, progress: snapshot });
+      },
+      throttleMs: this.#progressThrottleMs,
+      now: this.#monotonic,
+    });
+    // The plugin count is a real total: each one completing is a known unit of
+    // work. Discovery within a plugin has no knowable total, so `fraction`
+    // stays null until this is set.
+    progress.setTotal(plugins.length);
+    progress.setPhase('enumerating');
+
     await this.#forEachBounded(plugins, async (plugin) => {
       try {
         const findings = await this.#runPlugin(plugin, scan, controller.signal);
         collected.push(...findings);
+        progress.advance({
+          items: 1,
+          bytes: findings.reduce((sum, item) => sum + item.size, 0),
+        });
       } catch (error) {
         // One plugin failing must not fail the scan.
         failures.push({ pluginId: plugin.metadata.id, reason: describe(error) });
+        progress.advance({ items: 1 });
         this.#logger.warn('Scanner plugin failed', {
           plugin: plugin.metadata.id,
           reason: describe(error),
@@ -174,14 +212,23 @@ export class DefaultScanEngine implements ScanEngine {
       }
     });
 
-    const admitted = await this.#admit(collected);
-    const findings = dedupe(admitted);
+    const cancelled = controller.signal.aborted;
+    progress.setPhase('analyzing');
+
+    // A cancelled scan discards everything it gathered. Persisting partial
+    // results would later make it indistinguishable from a completed scan to
+    // `getLatestScan()`, which is how a user ends up acting on half a picture.
+    const findings = cancelled ? [] : dedupe(await this.#admit(collected));
 
     const status = resolveStatus({
-      cancelled: controller.signal.aborted,
+      cancelled,
       pluginCount: plugins.length,
       failureCount: failures.length,
     });
+
+    // Final emission, then the reporter refuses everything — a plugin that
+    // ignored its signal cannot report progress into a settled scan.
+    progress.finish();
 
     const finished: Scan = { ...scan, status, completedAt: this.#now() };
     this.#controllers.delete(scan.id);

@@ -54,7 +54,7 @@ INF-009 unblocked INF-007. INF-010, INF-011, and INF-012 need nothing further.
 | INF-005 | Storage/volume service                | NEEDS_MANUAL_TEST | INF-004                   |
 | INF-006 | Permission service                    | NEEDS_MANUAL_TEST | INF-003                   |
 | INF-007 | Scan engine foundation                | DONE   | INF-004, INF-009          |
-| INF-008 | Progress & cancellation               | TODO   | INF-007                   |
+| INF-008 | Progress & cancellation               | DONE   | INF-007                   |
 | INF-009 | Event system                          | DONE   | INF-002                   |
 | INF-010 | Persistence layer                     | DONE   | INF-002                   |
 | INF-011 | Logging                               | DONE   | INF-003                   |

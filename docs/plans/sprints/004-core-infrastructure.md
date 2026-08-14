@@ -680,7 +680,7 @@ pnpm test:unit    # Tier 2 — fake plugins + InMemoryFileSystem
 
 ```yaml
 id: INF-008
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-007]
 ```

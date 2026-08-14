@@ -9,6 +9,7 @@ import type { ScannerService } from '@luman/core';
 import { StubScannerService } from '@luman/core';
 
 export * from './scan-engine';
+export * from './progress-reporter';
 
 export function createScannerService(): ScannerService {
   return new StubScannerService();
