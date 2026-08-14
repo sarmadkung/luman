@@ -24,13 +24,34 @@ Rules:
 - Infrastructure is swapped without touching the UI (Sprint 2 replaces the stub
   services with real scanner/cleanup implementations behind the same contracts).
 
-## Event flow (target)
+## Event flow (implemented in INF-009)
 
 ```
 ScanRequested -> ScanCompleted -> ResultsAvailable -> CleanupRequested -> CleanupCompleted
+                      ^
+       ScanProgressed / ScanCancelled / ScanFailed
 ```
 
-Sprint 1 wires the seams only; no events fire yet.
+The union is `EventMap` in `packages/core/src/services/event-bus.ts`.
+
+- **Notifications, not commands.** No payload carries a callback or a
+  capability, so handling an event cannot cause anything. An event that could
+  trigger cleanup would be the auto-execute path AGENTS.md §6.5 forbids.
+- **Payloads are serializable data**, enforced by the `Serializable` type rather
+  than by comment — they must survive the Tauri IPC boundary and a persisted
+  event log, and a live object reference would also leak a capability.
+- **`CleanupRequested` and `CleanupCompleted` are declared but never published**
+  in Sprint 04. A test statically scans the source tree for publish sites, which
+  proves none exists anywhere — a runtime spy would only prove the paths the
+  suite happened to run never published.
+- **Ordering:** delivery is synchronous and in subscription order, with no
+  queue. When `publish` returns, every listener registered at call time has run.
+  The listener list is snapshotted, so a subscriber that unsubscribes
+  mid-publication still receives the event in flight and one added
+  mid-publication does not.
+- **A throwing subscriber is isolated** — logged, and the remaining subscribers
+  and the publisher are unaffected. A scan reporting progress must not die
+  because a widget threw.
 
 ## The filesystem port (INF-004)
 

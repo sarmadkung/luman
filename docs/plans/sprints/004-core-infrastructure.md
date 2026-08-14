@@ -756,7 +756,7 @@ pnpm test:unit    # Tier 2 — fake timers, fake plugins
 
 ```yaml
 id: INF-009
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-002]
 ```

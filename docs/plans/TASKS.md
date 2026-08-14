@@ -20,7 +20,6 @@ None
 
 ## Next Available
 
-- [ ] INF-009 — Event system
 - [ ] INF-010 — Persistence layer
 - [ ] INF-011 — Logging
 - [ ] INF-012 — Safety boundary
@@ -35,16 +34,19 @@ None
 
 ## Awaiting Developer
 
-None
+- [ ] INF-005 — Storage/volume service · `NEEDS_MANUAL_TEST` · blocks INF-013
+- [ ] INF-006 — Permission service · `NEEDS_MANUAL_TEST` · blocks INF-013
 
 ---
 
 ## Sprint 04 Ledger
 
-All fifteen tasks, mirroring the sprint file. INF-001 through INF-003 are
-`DONE`. INF-004 delivered the filesystem port and PathGuard, unblocking INF-005
-and INF-012. INF-006, INF-009, INF-010, and INF-011 are also eligible; take them
-in ID order.
+All fifteen tasks, mirroring the sprint file. INF-001 through INF-004 are
+`DONE`, as is INF-009. INF-005 and INF-006 are `NEEDS_MANUAL_TEST` — their code
+is complete and verified, but Tier 3 checks on real hardware are the developer's
+(`AGENTS.md` §9), and both block their dependents until cleared.
+
+INF-009 unblocked INF-007. INF-010, INF-011, and INF-012 need nothing further.
 
 | ID      | Task                                 | Status | Depends on                |
 | ------- | ------------------------------------ | ------ | ------------------------- |
@@ -52,11 +54,11 @@ in ID order.
 | INF-002 | Core domain types                     | DONE   | INF-001                   |
 | INF-003 | Service interfaces                    | DONE   | INF-002                   |
 | INF-004 | Filesystem abstraction                | DONE   | INF-003                   |
-| INF-005 | Storage/volume service                | TODO   | INF-004                   |
-| INF-006 | Permission service                    | TODO   | INF-003                   |
+| INF-005 | Storage/volume service                | NEEDS_MANUAL_TEST | INF-004                   |
+| INF-006 | Permission service                    | NEEDS_MANUAL_TEST | INF-003                   |
 | INF-007 | Scan engine foundation                | TODO   | INF-004, INF-009          |
 | INF-008 | Progress & cancellation               | TODO   | INF-007                   |
-| INF-009 | Event system                          | TODO   | INF-002                   |
+| INF-009 | Event system                          | DONE   | INF-002                   |
 | INF-010 | Persistence layer                     | TODO   | INF-002                   |
 | INF-011 | Logging                               | TODO   | INF-003                   |
 | INF-012 | Safety boundary                       | TODO   | INF-002, INF-004          |
