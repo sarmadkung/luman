@@ -1179,7 +1179,7 @@ pnpm test:unit    # Tier 2
 
 ```yaml
 id: INF-014
-status: TODO
+status: NEEDS_MANUAL_TEST
 priority: P0
 depends_on: [INF-010, INF-013]
 ```

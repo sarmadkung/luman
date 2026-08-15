@@ -20,15 +20,14 @@ None
 
 ## Next Available
 
-- [ ] INF-014 — UI integration
+None. Every remaining task is with the developer.
 
-INF-013 was taken while INF-005 and INF-006 were still `NEEDS_MANUAL_TEST`, on
-the developer's explicit authorization (2026-08-15). The exception and its
-reasoning are recorded on the task in the sprint file. Dependencies were not
-edited and no status was falsified.
+INF-013 and INF-014 were taken while INF-005 and INF-006 were still
+`NEEDS_MANUAL_TEST`, on the developer's explicit authorization (2026-08-15).
+The exception and its reasoning are recorded on INF-013 in the sprint file.
+Dependencies were not edited and no status was falsified.
 
-INF-014 depends on INF-010 (`DONE`) and INF-013 (`DONE`), so it is eligible
-under the same authorization.
+INF-015 is the one task that exception does **not** cover — see Blocked.
 
 ## Blocked
 
@@ -39,8 +38,9 @@ under the same authorization.
 
 ## Awaiting Developer
 
-- [ ] INF-005 — Storage/volume service · `NEEDS_MANUAL_TEST` · blocks INF-013
-- [ ] INF-006 — Permission service · `NEEDS_MANUAL_TEST` · blocks INF-013
+- [ ] INF-005 — Storage/volume service · `NEEDS_MANUAL_TEST`
+- [ ] INF-006 — Permission service · `NEEDS_MANUAL_TEST`
+- [ ] INF-014 — UI integration · `NEEDS_MANUAL_TEST` · native launch + e2e
 
 ---
 
@@ -68,7 +68,7 @@ INF-009 unblocked INF-007. INF-010, INF-011, and INF-012 need nothing further.
 | INF-011 | Logging                               | DONE   | INF-003                   |
 | INF-012 | Safety boundary                       | DONE   | INF-002, INF-004          |
 | INF-013 | Mock implementations                  | DONE   | INF-004, INF-005, INF-006 |
-| INF-014 | UI integration                        | TODO   | INF-010, INF-013          |
+| INF-014 | UI integration                        | NEEDS_MANUAL_TEST | INF-010, INF-013          |
 | INF-015 | Verification                          | TODO   | INF-001 … INF-014         |
 
 ## Completed
