@@ -1097,10 +1097,18 @@ pnpm test:unit    # Tier 2 — every test asserts a refusal or a plan
 
 ```yaml
 id: INF-013
-status: TODO
+status: DONE
 priority: P0
 depends_on: [INF-004, INF-005, INF-006]
 ```
+
+> **Dependency exception, authorized by the developer 2026-08-15.** INF-005 and
+> INF-006 were `NEEDS_MANUAL_TEST` when this task was taken, which §8 would
+> normally treat as blocking. The developer directed the work to proceed. The
+> risk is low because this task builds *mocks*: it depends on the two services'
+> **contracts**, which are complete and tested, not on their real-hardware
+> behavior, which is what the manual tests verify. Dependencies were not edited
+> and no status was falsified.
 
 ### Objective
 
