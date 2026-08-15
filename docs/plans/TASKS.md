@@ -20,14 +20,22 @@ None
 
 ## Next Available
 
+- [ ] INF-014 — UI integration
 
-INF-013 depends on INF-005, which is awaiting a manual test. It is not blocked
-on the *code* — INF-005's fallback path is complete and tested — but its status
-must clear before INF-013 starts (`AGENTS.md` §8).
+INF-013 was taken while INF-005 and INF-006 were still `NEEDS_MANUAL_TEST`, on
+the developer's explicit authorization (2026-08-15). The exception and its
+reasoning are recorded on the task in the sprint file. Dependencies were not
+edited and no status was falsified.
+
+INF-014 depends on INF-010 (`DONE`) and INF-013 (`DONE`), so it is eligible
+under the same authorization.
 
 ## Blocked
 
-None
+- INF-015 — Verification. Its final audit covers every task, and two of them
+  (INF-005, INF-006) cannot be signed off until the developer's Tier 3 checks
+  pass. Taking it now would mean auditing work whose verification has not
+  happened.
 
 ## Awaiting Developer
 
@@ -59,7 +67,7 @@ INF-009 unblocked INF-007. INF-010, INF-011, and INF-012 need nothing further.
 | INF-010 | Persistence layer                     | DONE   | INF-002                   |
 | INF-011 | Logging                               | DONE   | INF-003                   |
 | INF-012 | Safety boundary                       | DONE   | INF-002, INF-004          |
-| INF-013 | Mock implementations                  | TODO   | INF-004, INF-005, INF-006 |
+| INF-013 | Mock implementations                  | DONE   | INF-004, INF-005, INF-006 |
 | INF-014 | UI integration                        | TODO   | INF-010, INF-013          |
 | INF-015 | Verification                          | TODO   | INF-001 … INF-014         |
 
